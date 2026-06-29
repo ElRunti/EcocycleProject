@@ -1,0 +1,77 @@
+@model IEnumerable<EcoCycleCore.Models.Entrega>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicacionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CiudadanoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CentroId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PesoReal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuntosOtorgados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ciudadano)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publicacion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.PublicacionId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CiudadanoId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CentroId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PesoReal)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PuntosOtorgados)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.FechaEntrega)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Ciudadano)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Publicacion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EntregaId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EntregaId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EntregaId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

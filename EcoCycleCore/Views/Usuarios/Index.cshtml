@@ -1,0 +1,95 @@
+@model IEnumerable<EcoCycleCore.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContrasenaHash)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuntosAcumulacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Canjes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entregas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publicaciones)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ContrasenaHash)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.TipoUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PuntosAcumulacion)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.FechaRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Canjes)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Entregas)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Publicaciones)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UsuarioId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UsuarioId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UsuarioId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
