@@ -1,9 +1,14 @@
+using EcoCycleCore.Models;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+builder.Services.AddDbContext<EcoCycleContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EcoCycleConnection")));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
