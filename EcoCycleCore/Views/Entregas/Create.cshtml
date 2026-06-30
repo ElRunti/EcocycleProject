@@ -1,72 +1,52 @@
 @model EcoCycleCore.Models.Entrega
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nueva entrega";
 }
 
-<h1>Create</h1>
-
-<h4>Entrega</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="PublicacionId" class="control-label"></label>
-                <input asp-for="PublicacionId" class="form-control" />
-                <span asp-validation-for="PublicacionId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CiudadanoId" class="control-label"></label>
-                <input asp-for="CiudadanoId" class="form-control" />
-                <span asp-validation-for="CiudadanoId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CentroId" class="control-label"></label>
-                <input asp-for="CentroId" class="form-control" />
-                <span asp-validation-for="CentroId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PesoReal" class="control-label"></label>
-                <input asp-for="PesoReal" class="form-control" />
-                <span asp-validation-for="PesoReal" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PuntosOtorgados" class="control-label"></label>
-                <input asp-for="PuntosOtorgados" class="form-control" />
-                <span asp-validation-for="PuntosOtorgados" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="FechaEntrega" class="control-label"></label>
-                <input asp-for="FechaEntrega" class="form-control" />
-                <span asp-validation-for="FechaEntrega" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Ciudadano" class="control-label"></label>
-                <input asp-for="Ciudadano" class="form-control" />
-                <span asp-validation-for="Ciudadano" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Publicacion" class="control-label"></label>
-                <input asp-for="Publicacion" class="form-control" />
-                <span asp-validation-for="Publicacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="eco-crud-header mb-4">
+    <div class="eco-crud-eyebrow">Recolección</div>
+    <h1>Registrar entrega</h1>
+    <p class="text-muted mb-0">Selecciona la publicación, pesa el material y los puntos se calculan automáticamente.</p>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="eco-form-card">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Publicación</label>
+            <select asp-for="PublicacionId" class="form-select" asp-items="ViewBag.PublicacionId">
+                <option value="">-- Selecciona una publicación --</option>
+            </select>
+            <span asp-validation-for="PublicacionId" class="text-danger"></span>
+            <div class="form-text">Los puntos del ciudadano se calculan según el material de esta publicación.</div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CentroId" class="form-label"></label>
+            <input asp-for="CentroId" class="form-control" placeholder="Id del centro de recolección" />
+            <span asp-validation-for="CentroId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PesoReal" class="form-label"></label>
+            <input asp-for="PesoReal" class="form-control" placeholder="Ej. 3.50" />
+            <span asp-validation-for="PesoReal" class="text-danger"></span>
+            <div class="form-text">Peso real registrado en báscula, en kilogramos.</div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn-eco-primary">
+                <i class="bi bi-check-circle me-1"></i> Registrar entrega
+            </button>
+            <a asp-action="Index" class="btn-eco-ghost-light">Cancelar</a>
+        </div>
+    </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

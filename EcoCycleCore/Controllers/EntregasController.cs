@@ -1,9 +1,8 @@
-
 using EcoCycleCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 public class EntregasController : Controller
 {
     private readonly EcoCycleContext _context;
@@ -14,9 +13,14 @@ public class EntregasController : Controller
     }
 
     // GET: ENTREGAS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.Entregas.ToListAsync());
+        var entregas = await _context.Entregas
+            .Include(e => e.Ciudadano)
+            .Include(e => e.Publicacion)
+            .ToListAsync();
+
+        return View(entregas);
     }
 
     // GET: ENTREGAS/Details/5
@@ -28,7 +32,10 @@ public class EntregasController : Controller
         }
 
         var entrega = await _context.Entregas
+            .Include(e => e.Ciudadano)
+            .Include(e => e.Publicacion)
             .FirstOrDefaultAsync(m => m.EntregaId == entregaid);
+
         if (entrega == null)
         {
             return NotFound();
@@ -37,7 +44,6 @@ public class EntregasController : Controller
         return View(entrega);
     }
 
-    // GET: ENTREGAS/Create
     // GET: ENTREGAS/Create
     public async Task<IActionResult> Create()
     {
@@ -53,14 +59,10 @@ public class EntregasController : Controller
     }
 
     // POST: ENTREGAS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    // POST: ENTREGAS/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("PublicacionId,CentroId,PesoReal")] Entrega entrega)
     {
-        // Buscamos la publicación junto con su material (para sacar puntos_por_kilo)
         var publicacion = await _context.Publicaciones
             .Include(p => p.Material)
             .Include(p => p.Usuario)
@@ -74,20 +76,16 @@ public class EntregasController : Controller
 
         if (ModelState.IsValid)
         {
-            // El ciudadano que entrega es el dueño de la publicación
             entrega.CiudadanoId = publicacion.UsuarioId;
 
-            // Cálculo de puntos: peso_real * puntos_por_kilo del material
             decimal puntosCalculados = entrega.PesoReal * publicacion.Material.PuntosPorKilo;
             entrega.PuntosOtorgados = (int)puntosCalculados;
 
             entrega.FechaEntrega = DateTime.Now;
 
-            // Sumar puntos al usuario
             publicacion.Usuario.PuntosAcumulacion =
                 (publicacion.Usuario.PuntosAcumulacion ?? 0) + entrega.PuntosOtorgados;
 
-            // Marcar la publicación como ya entregada
             publicacion.Estado = "Completada"; // ajusta según tus valores reales
 
             _context.Entregas.Add(entrega);
@@ -98,6 +96,7 @@ public class EntregasController : Controller
 
         return View(entrega);
     }
+
     // GET: ENTREGAS/Edit/5
     public async Task<IActionResult> Edit(int? entregaid)
     {
@@ -106,7 +105,11 @@ public class EntregasController : Controller
             return NotFound();
         }
 
-        var entrega = await _context.Entregas.FindAsync(entregaid);
+        var entrega = await _context.Entregas
+            .Include(e => e.Ciudadano)
+            .Include(e => e.Publicacion)
+            .FirstOrDefaultAsync(m => m.EntregaId == entregaid);
+
         if (entrega == null)
         {
             return NotFound();
@@ -115,11 +118,9 @@ public class EntregasController : Controller
     }
 
     // POST: ENTREGAS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? entregaid, [Bind("EntregaId,PublicacionId,CiudadanoId,CentroId,PesoReal,PuntosOtorgados,FechaEntrega,Ciudadano,Publicacion")] Entrega entrega)
+    public async Task<IActionResult> Edit(int? entregaid, [Bind("EntregaId,PublicacionId,CiudadanoId,CentroId,PesoReal,PuntosOtorgados,FechaEntrega")] Entrega entrega)
     {
         if (entregaid != entrega.EntregaId)
         {
@@ -158,7 +159,10 @@ public class EntregasController : Controller
         }
 
         var entrega = await _context.Entregas
+            .Include(e => e.Ciudadano)
+            .Include(e => e.Publicacion)
             .FirstOrDefaultAsync(m => m.EntregaId == entregaid);
+
         if (entrega == null)
         {
             return NotFound();

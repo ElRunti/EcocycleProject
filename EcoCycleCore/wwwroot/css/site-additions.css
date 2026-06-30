@@ -1,0 +1,45 @@
+
+
+.eco-crud-eyebrow {
+  color: var(--eco-leaf);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: .78rem;
+  letter-spacing: .07em;
+  margin-bottom: .2rem;
+}
+
+.eco-crud-header h1 {
+  font-size: 1.9rem;
+  margin-bottom: .2rem;
+}
+
+.btn-eco-ghost-light {
+  background: transparent;
+  color: var(--eco-forest);
+  border: 1px solid var(--eco-line);
+  padding: .6rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color .15s ease, background .15s ease;
+}
+.btn-eco-ghost-light:hover {
+  border-color: var(--eco-sprout);
+  background: var(--eco-sage);
+  color: var(--eco-forest);
+}
+
+.eco-empty-state {
+  color: var(--eco-text-muted);
+  background: #fff;
+  border: 1px dashed var(--eco-line);
+  border-radius: 16px;
+}
+
+.eco-empty-state i {
+  font-size: 2.2rem;
+  color: var(--eco-sprout);
+}

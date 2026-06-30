@@ -1,77 +1,68 @@
 @model IEnumerable<EcoCycleCore.Models.Entrega>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Entregas";
 }
 
-<h1>Index</h1>
+<div class="eco-crud-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <div class="eco-crud-eyebrow">Recolección</div>
+        <h1>Entregas</h1>
+        <p class="text-muted mb-0">Pesajes registrados y puntos otorgados a cada ciudadano.</p>
+    </div>
+    <a asp-action="Create" class="btn-eco-primary">
+        <i class="bi bi-plus-circle me-1"></i> Nueva entrega
+    </a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PublicacionId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CiudadanoId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CentroId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PesoReal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PuntosOtorgados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaEntrega)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ciudadano)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publicacion)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.PublicacionId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.CiudadanoId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.CentroId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.PesoReal)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.PuntosOtorgados)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.FechaEntrega)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Ciudadano)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Publicacion)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EntregaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EntregaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EntregaId">Delete</a>
-            </td>
-        </tr>
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Ciudadano</th>
+                <th>Publicación</th>
+                <th>@Html.DisplayNameFor(model => model.CentroId)</th>
+                <th>@Html.DisplayNameFor(model => model.PesoReal)</th>
+                <th>@Html.DisplayNameFor(model => model.PuntosOtorgados)</th>
+                <th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
+                <th class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Ciudadano.Nombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Publicacion.Descripcion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CentroId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PesoReal) kg</td>
+                    <td>
+                        <span class="badge rounded-pill" style="background-color: var(--eco-sage); color: var(--eco-forest);">
+                            +@Html.DisplayFor(modelItem => item.PuntosOtorgados) pts
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.FechaEntrega)</td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.EntregaId" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.EntregaId" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.EntregaId" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="eco-empty-state text-center py-5">
+        <i class="bi bi-clipboard-check"></i>
+        <p class="mt-2 mb-0">Todavía no hay entregas registradas.</p>
+    </div>
 }
-    </tbody>
-</table>
