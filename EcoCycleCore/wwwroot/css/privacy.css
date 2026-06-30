@@ -1,0 +1,90 @@
+
+/*hecho por yito*/
+.privacy-page {
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 3rem;
+}
+
+.privacy-hero {
+  background: var(--eco-forest);
+  color: var(--eco-sage);
+  border-radius: 0 0 36px 36px;
+  text-align: center;
+  padding: 3.5rem 1rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-hero::before {
+  content: "";
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--eco-leaf) 0%, transparent 70%);
+  opacity: .3;
+  top: -140px; left: -100px;
+}
+
+.privacy-badge {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--eco-sprout);
+  color: var(--eco-forest);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  margin: 0 auto 1rem;
+}
+
+.privacy-hero h1 { color: #fff; font-size: clamp(2rem, 4vw, 2.6rem); }
+.privacy-hero p { color: rgba(216,243,220,.85); max-width: 480px; margin: .5rem auto 0; }
+
+.privacy-card {
+  background: #fff;
+  border: 1px solid var(--eco-line);
+  border-radius: 16px;
+  padding: 1.6rem 1.6rem;
+  margin-top: -3rem;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 12px 30px -10px rgba(27,67,50,.15);
+}
+
+.privacy-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #f0ece0;
+}
+.privacy-item:last-child { border-bottom: none; }
+
+.privacy-item .icon {
+  flex: 0 0 44px;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--eco-sage);
+  color: var(--eco-leaf);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+
+.privacy-item h6 { font-weight: 700; margin-bottom: .25rem; }
+.privacy-item p { color: var(--eco-text-muted); font-size: .92rem; margin-bottom: 0; }
+
+.privacy-note {
+  background: var(--eco-sage);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+}
+.privacy-note i { color: var(--eco-leaf); font-size: 1.3rem; }
+.privacy-note p { margin: 0; font-size: .9rem; color: var(--eco-bark); }
+
+.privacy-footer-note {
+  text-align: center;
+  color: #9a9586;
+  font-size: .85rem;
+  margin-top: 2rem;
+}

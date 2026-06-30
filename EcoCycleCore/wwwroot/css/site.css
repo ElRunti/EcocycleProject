@@ -1,22 +1,219 @@
+
+
+:root {
+    --eco-forest: #1B4332;
+    --eco-leaf: #40916C;
+    --eco-sprout: #74C69D;
+    --eco-sage: #D8F3DC;
+    --eco-paper: #FBF9F4;
+    --eco-bark: #6B5840;
+    --eco-line: #E7E2D4;
+    --eco-text-muted: #6B6B5F;
+}
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--eco-paper);
+    color: var(--eco-forest);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--eco-forest);
+}
+
+a {
+    color: var(--eco-leaf);
+}
+
+    a:hover {
+        color: var(--eco-forest);
+    }
+
+
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-select:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--eco-paper), 0 0 0 0.25rem var(--eco-sprout);
+}
+
+
+
+.btn-success,
+.btn-primary {
+    background-color: var(--eco-leaf);
+    border-color: var(--eco-leaf);
+    font-weight: 600;
+}
+
+    .btn-success:hover,
+    .btn-primary:hover {
+        background-color: var(--eco-forest);
+        border-color: var(--eco-forest);
+    }
+
+.btn-outline-success,
+.btn-outline-primary {
+    color: var(--eco-leaf);
+    border-color: var(--eco-leaf);
+    font-weight: 600;
+}
+
+    .btn-outline-success:hover,
+    .btn-outline-primary:hover {
+        background-color: var(--eco-leaf);
+        border-color: var(--eco-leaf);
+        color: #fff;
+    }
+
+.btn-danger {
+    font-weight: 600;
+}
+
+
+
+.navbar {
+    background-color: var(--eco-forest) !important;
+    box-shadow: 0 2px 12px -4px rgba(27, 67, 50, .35);
+}
+
+    .navbar-brand,
+    .navbar .nav-link {
+        color: var(--eco-sage) !important;
+        font-weight: 500;
+    }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: #fff !important;
+        }
+
+.navbar-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+}
+
+
+
+.form-label {
+    font-weight: 600;
+    color: var(--eco-forest);
+    font-size: .92rem;
+    margin-bottom: .35rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid var(--eco-line);
+    border-radius: 10px;
+    padding: .55rem .8rem;
+    background-color: #fff;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--eco-sprout);
+    }
+
+.form-text {
+    color: var(--eco-text-muted);
+    font-size: .82rem;
+}
+
+.text-danger {
+    font-size: .85rem;
+}
+
+.eco-form-card {
+    background: #fff;
+    border: 1px solid var(--eco-line);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 640px;
+    box-shadow: 0 12px 30px -14px rgba(27, 67, 50, .15);
+}
+
+
+
+.table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .table thead {
+        background-color: var(--eco-sage);
+    }
+
+        .table thead th {
+            color: var(--eco-forest);
+            font-weight: 700;
+            font-size: .85rem;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            border-bottom: none;
+        }
+
+    .table tbody tr:hover {
+        background-color: #f6f9f4;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        padding: .85rem 1rem;
+    }
+
+
+
+.eco-detail-card {
+    background: #fff;
+    border: 1px solid var(--eco-line);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 640px;
+}
+
+    .eco-detail-card dt {
+        color: var(--eco-text-muted);
+        font-weight: 600;
+        font-size: .85rem;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+    }
+
+    .eco-detail-card dd {
+        margin-bottom: 1rem;
+        font-size: 1.02rem;
+    }
+
+
+
+.alert-danger {
+    background-color: #FDEDEC;
+    border-color: #F5C6CB;
+    color: #842029;
+    border-radius: 12px;
+}
+
+
+
+.footer {
+    background-color: #fff;
+    border-top: 1px solid var(--eco-line);
+    color: var(--eco-text-muted);
 }

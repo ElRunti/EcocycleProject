@@ -1,0 +1,188 @@
+
+.eco-page {
+  font-family: 'Inter', sans-serif;
+}
+
+
+.eco-hero {
+  background: var(--eco-forest);
+  color: var(--eco-sage);
+  border-radius: 0 0 48px 48px;
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 1rem 6rem;
+}
+
+.eco-hero::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--eco-leaf) 0%, transparent 70%);
+  opacity: .35;
+  top: -180px;
+  right: -160px;
+}
+
+.eco-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  color: var(--eco-sprout);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+}
+
+.eco-hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: #fff;
+  max-width: 720px;
+}
+
+.eco-hero p.lead {
+  max-width: 560px;
+  color: rgba(216,243,220,.85);
+  font-size: 1.15rem;
+}
+
+.btn-eco-primary {
+  background: var(--eco-sprout);
+  color: var(--eco-forest);
+  font-weight: 600;
+  border: none;
+  padding: .7rem 1.6rem;
+  border-radius: 10px;
+  transition: transform .15s ease, background .15s ease;
+}
+.btn-eco-primary:hover { background: #8fd9b3; transform: translateY(-1px); color: var(--eco-forest); }
+
+.btn-eco-ghost {
+  background: transparent;
+  color: var(--eco-sage);
+  border: 1px solid rgba(216,243,220,.4);
+  padding: .7rem 1.6rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: border-color .15s ease, background .15s ease;
+}
+.btn-eco-ghost:hover { background: rgba(255,255,255,.08); border-color: var(--eco-sage); color: var(--eco-sage); }
+
+
+.eco-stats {
+  margin-top: -3.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.eco-stat-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px -10px rgba(27,67,50,.18);
+  padding: 1.6rem 1.4rem;
+  height: 100%;
+}
+
+.eco-stat-card .num {
+  font-family: 'Fraunces', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--eco-leaf);
+  line-height: 1;
+}
+
+.eco-stat-card .label {
+  font-size: .88rem;
+  color: var(--eco-bark);
+  margin-top: .3rem;
+}
+
+.eco-section { padding: 5rem 1rem; }
+
+.eco-section-title .tag {
+  color: var(--eco-leaf);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: .8rem;
+  letter-spacing: .08em;
+}
+
+.step-card {
+  background: #fff;
+  border: 1px solid var(--eco-line);
+  border-radius: 16px;
+  padding: 1.8rem 1.5rem;
+  height: 100%;
+  position: relative;
+}
+
+.step-card .step-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--eco-sage);
+  color: var(--eco-leaf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.step-connector {
+  position: absolute;
+  top: 26px;
+  right: -1.6rem;
+  color: #c9c2ab;
+  font-size: 1.3rem;
+  display: none;
+}
+@media (min-width: 992px) {
+  .step-connector { display: block; }
+}
+
+/* ---------- MODULOS ---------- */
+.module-card {
+  border-radius: 16px;
+  border: 1px solid var(--eco-line);
+  background: #fff;
+  padding: 1.8rem;
+  height: 100%;
+  text-decoration: none;
+  color: var(--eco-forest);
+  display: block;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.module-card:hover {
+  border-color: var(--eco-sprout);
+  transform: translateY(-3px);
+  color: var(--eco-forest);
+}
+
+.module-card .icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: var(--eco-forest);
+  color: var(--eco-sprout);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.module-card .go {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--eco-leaf);
+}
+
+.eco-cta {
+  background: var(--eco-sage);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+}
