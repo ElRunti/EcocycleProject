@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Iniciar Sesión</h2>
+
+@if (ViewBag.Error != null)
+{
+    <p>@ViewBag.Error</p>
+}
+
+<form method="post">
+
+    <div>
+        <label>Correo</label>
+        <input type="email"
+               name="correo"
+               required />
+    </div>
+
+    <div>
+        <label>Contraseña</label>
+        <input type="password"
+               name="password"
+               required />
+    </div>
+
+    <button type="submit">
+        Ingresar
+    </button>
+
+</form>
+
+<a href="/Auth/Register">
+    Registrarse
+</a>
+
