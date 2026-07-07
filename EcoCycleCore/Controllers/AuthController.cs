@@ -106,7 +106,7 @@ namespace EcoCycleCore.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Inicio";
-}
+﻿@using Microsoft.AspNetCore.Http
 
+@{
+    ViewData["Title"] = "Inicio";
+
+    var usuario = Context.Session.GetString("usuario");
+}
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" />
 }
@@ -10,14 +13,70 @@
     <!-- TOP BAR -->
     <div class="d-flex justify-content-end p-3">
 
-        <a asp-controller="Auth"
-           asp-action="Login"
-           class="btn btn-outline-success rounded-pill px-4">
+        @if (usuario == null)
+        {
+            <a asp-controller="Auth"
+               asp-action="Login"
+               class="btn btn-outline-success rounded-pill px-4">
 
-            <i class="bi bi-person-circle me-1"></i>
-            Iniciar sesión
+                <i class="bi bi-person-circle me-1"></i>
+                Iniciar sesión
 
-        </a>
+            </a>
+        }
+        else
+        {
+            <div class="dropdown">
+
+                <button class="btn btn-success dropdown-toggle rounded-pill px-4"
+                        type="button"
+                        data-bs-toggle="dropdown">
+
+                    <i class="bi bi-person-circle me-1"></i>
+                    @usuario
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Usuarios"
+                           asp-action="Index">
+
+                            Mi perfil
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Canjes"
+                           asp-action="Index">
+
+                            Mis puntos
+
+                        </a>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item text-danger"
+                           asp-controller="Auth"
+                           asp-action="Logout">
+
+                            Cerrar sesión
+
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        }
 
     </div>
 
