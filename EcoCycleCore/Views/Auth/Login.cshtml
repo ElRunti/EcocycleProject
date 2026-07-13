@@ -1,38 +1,56 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Login";
 }
 
-<h2>Iniciar Sesión</h2>
+<!-- Importamos el nuevo CSS específico para el login -->
+<link rel="stylesheet" href="~/css/login.css" />
 
-@if (ViewBag.Error != null)
-{
-    <p>@ViewBag.Error</p>
-}
+<div class="login-container">
+    <div class="login-card">
 
-<form method="post">
+        <h2 class="login-title">Iniciar Sesión</h2>
+        <p class="login-subtitle">Bienvenido de nuevo a Ecocycle</p>
 
-    <div>
-        <label>Correo</label>
-        <input type="email"
-               name="correo"
-               required />
+        @if (ViewBag.Error != null)
+        {
+            <!-- Usa la clase alert-danger que ya tienes en site.css -->
+            <div class="alert alert-danger login-alert">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form method="post">
+            <div class="login-form-group">
+                <label class="form-label">Correo electrónico</label>
+                <!-- Usamos form-control de tu site.css + login-input -->
+                <input type="email"
+                       name="correo"
+                       class="form-control login-input"
+                       placeholder="tu@correo.com"
+                       required />
+            </div>
+
+            <div class="login-form-group">
+                <label class="form-label">Contraseña</label>
+                <input type="password"
+                       name="password"
+                       class="form-control login-input"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            <!-- Usamos btn y btn-primary de tu site.css + login-btn -->
+            <button type="submit" class="btn btn-primary login-btn">
+                Ingresar
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <span>¿No tienes una cuenta?</span>
+            <a href="/Auth/Register" class="login-link">
+                Regístrate aquí
+            </a>
+        </div>
+
     </div>
-
-    <div>
-        <label>Contraseña</label>
-        <input type="password"
-               name="password"
-               required />
-    </div>
-
-    <button type="submit">
-        Ingresar
-    </button>
-
-</form>
-
-<a href="/Auth/Register">
-    Registrarse
-</a>
-
+</div>
