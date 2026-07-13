@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EcoCycleCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67dea4a178a2e2e1feef2e6b54139a12ce26674e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26ab1fce923dd543e82889d900f02c10d336e58f")]
 [assembly: System.Reflection.AssemblyProductAttribute("EcoCycleCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EcoCycleCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

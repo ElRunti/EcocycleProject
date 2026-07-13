@@ -1,40 +1,62 @@
-﻿
-@{
+﻿\@{
     ViewData["Title"] = "Registro";
 }
 
-<h2>Registro</h2>
+<!-- Importamos el nuevo CSS específico para el registro -->
+<link rel="stylesheet" href="~/css/register.css" />
 
-@if (ViewBag.Error != null)
-{
-    <p>@ViewBag.Error</p>
-}
+<div class="register-container">
+    <div class="register-card">
 
-<form method="post">
+        <h2 class="register-title">Crear Cuenta</h2>
+        <p class="register-subtitle">Únete a Ecocycle y sé parte del cambio</p>
 
-    <div>
-        <label>Nombre</label>
-        <input type="text"
-               name="nombre"
-               required />
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger register-alert">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form method="post">
+            <div class="register-form-group">
+                <label class="form-label">Nombre completo</label>
+                <input type="text"
+                       name="nombre"
+                       class="form-control register-input"
+                       placeholder="Ej. Juan Pérez"
+                       required />
+            </div>
+
+            <div class="register-form-group">
+                <label class="form-label">Correo electrónico</label>
+                <input type="email"
+                       name="correo"
+                       class="form-control register-input"
+                       placeholder="tu@correo.com"
+                       required />
+            </div>
+
+            <div class="register-form-group">
+                <label class="form-label">Contraseña</label>
+                <input type="password"
+                       name="password"
+                       class="form-control register-input"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            <button type="submit" class="btn btn-primary register-btn">
+                Registrarse
+            </button>
+        </form>
+
+        <div class="register-footer">
+            <span>¿Ya tienes una cuenta?</span>
+            <a href="/Auth/Login" class="register-link">
+                Inicia sesión aquí
+            </a>
+        </div>
+
     </div>
-
-    <div>
-        <label>Correo</label>
-        <input type="email"
-               name="correo"
-               required />
-    </div>
-
-    <div>
-        <label>Contraseña</label>
-        <input type="password"
-               name="password"
-               required />
-    </div>
-
-    <button type="submit">
-        Registrarse
-    </button>
-
-</form>
+</div>
