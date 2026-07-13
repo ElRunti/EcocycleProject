@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vic_t\\source\\repos\\ElRunti\\EcocycleProject\\EcoCycleCore\\EcoCycleCore.csproj": {}
+    "C:\\Users\\infin\\Desktop\\EcoCycle Proyect\\EcoCycleCore\\EcoCycleCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vic_t\\source\\repos\\ElRunti\\EcocycleProject\\EcoCycleCore\\EcoCycleCore.csproj": {
+    "C:\\Users\\infin\\Desktop\\EcoCycle Proyect\\EcoCycleCore\\EcoCycleCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vic_t\\source\\repos\\ElRunti\\EcocycleProject\\EcoCycleCore\\EcoCycleCore.csproj",
+        "projectUniqueName": "C:\\Users\\infin\\Desktop\\EcoCycle Proyect\\EcoCycleCore\\EcoCycleCore.csproj",
         "projectName": "EcoCycleCore",
-        "projectPath": "C:\\Users\\vic_t\\source\\repos\\ElRunti\\EcocycleProject\\EcoCycleCore\\EcoCycleCore.csproj",
-        "packagesPath": "C:\\Users\\vic_t\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vic_t\\source\\repos\\ElRunti\\EcocycleProject\\EcoCycleCore\\obj\\",
+        "projectPath": "C:\\Users\\infin\\Desktop\\EcoCycle Proyect\\EcoCycleCore\\EcoCycleCore.csproj",
+        "packagesPath": "C:\\Users\\infin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\infin\\Desktop\\EcoCycle Proyect\\EcoCycleCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\vic_t\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\infin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -99,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
