@@ -146,4 +146,30 @@ public class UsuariosController : Controller
     {
         return _context.Usuarios.Any(e => e.UsuarioId == usuarioid);
     }
+    // GET: USUARIOS/Profile
+    public async Task<IActionResult> Profile()
+    {
+        // 1. Obtenemos el valor de la sesión (nombre o correo)
+        var sesionUsuario = HttpContext.Session.GetString("usuario");
+
+        // 2. Verificamos si hay una sesión activa
+        if (string.IsNullOrEmpty(sesionUsuario))
+        {
+            // Si no está logueado, lo mandamos al Login
+            return RedirectToAction("Login", "Auth");
+        }
+
+        // 3. Buscamos al usuario en la base de datos usando el valor de la sesión.
+        // NOTA: Si en tu sesión guardas el 'Correo' en lugar del 'Nombre', cambia m.Nombre por m.Correo
+        var usuario = await _context.Usuarios
+            .Include(u => u.Publicaciones) // Trae la lista de publicaciones del usuario
+            .FirstOrDefaultAsync(m => m.Nombre == sesionUsuario);
+
+        if (usuario == null)
+        {
+            return NotFound();
+        }
+
+        return View(usuario);
+    }
 }
