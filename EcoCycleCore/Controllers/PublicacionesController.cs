@@ -66,7 +66,7 @@ namespace EcoCycleCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "MaterialId", publicacione.MaterialId);
+            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "NombreMaterial", publicacione.MaterialId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId", publicacione.UsuarioId);
             return View(publicacione);
         }
