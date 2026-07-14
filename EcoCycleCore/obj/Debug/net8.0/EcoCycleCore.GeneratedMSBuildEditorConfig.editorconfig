@@ -17,129 +17,129 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = EcoCycleCore
 build_property.RootNamespace = EcoCycleCore
-build_property.ProjectDir = C:\Users\infin\Desktop\EcoCycle Proyect\EcoCycleCore\
+build_property.ProjectDir = C:\Users\diana\Desktop\EcocycleProyecto\EcocycleProject\EcoCycleCore\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\infin\Desktop\EcoCycle Proyect\EcoCycleCore
+build_property.MSBuildProjectDirectory = C:\Users\diana\Desktop\EcocycleProyecto\EcocycleProject\EcoCycleCore
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Auth/Login.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Auth/Register.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Entregas/Create.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Entregas/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW50cmVnYXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Entregas/Delete.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Entregas/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW50cmVnYXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Entregas/Details.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Entregas/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW50cmVnYXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Entregas/Edit.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Entregas/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW50cmVnYXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Entregas/Index.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Entregas/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW50cmVnYXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Home/Index.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Home/Privacy.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Materiales/Create.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Materiales/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJpYWxlc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Materiales/Delete.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Materiales/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJpYWxlc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Materiales/Details.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Materiales/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJpYWxlc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Materiales/Edit.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Materiales/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJpYWxlc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Materiales/Index.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Materiales/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJpYWxlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Publicaciones/Create.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Publicaciones/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25lc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Publicaciones/Delete.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Publicaciones/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25lc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Publicaciones/Details.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Publicaciones/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25lc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Publicaciones/Edit.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Publicaciones/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25lc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Publicaciones/Index.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Publicaciones/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljYWNpb25lc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Shared/Error.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Usuarios/Create.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Usuarios/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Usuarios/Delete.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Usuarios/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Usuarios/Details.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Usuarios/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Usuarios/Edit.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Usuarios/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Usuarios/Index.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Usuarios/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/_ViewImports.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/_ViewStart.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/infin/Desktop/EcoCycle Proyect/EcoCycleCore/Views/Shared/_Layout.cshtml]
+[C:/Users/diana/Desktop/EcocycleProyecto/EcocycleProject/EcoCycleCore/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-wpei44zv3t
