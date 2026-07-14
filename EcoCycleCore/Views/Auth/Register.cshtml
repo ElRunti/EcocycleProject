@@ -1,8 +1,7 @@
-﻿\@{
+﻿@{
     ViewData["Title"] = "Registro";
 }
 
-<!-- Importamos el nuevo CSS específico para el registro -->
 <link rel="stylesheet" href="~/css/register.css" />
 
 <div class="register-container">
@@ -21,29 +20,38 @@
         <form method="post">
             <div class="register-form-group">
                 <label class="form-label">Nombre completo</label>
-                <input type="text"
-                       name="nombre"
-                       class="form-control register-input"
-                       placeholder="Ej. Juan Pérez"
-                       required />
+                <input type="text" name="nombre" class="form-control register-input" placeholder="Ej. Juan Pérez" required />
             </div>
 
             <div class="register-form-group">
                 <label class="form-label">Correo electrónico</label>
-                <input type="email"
-                       name="correo"
-                       class="form-control register-input"
-                       placeholder="tu@correo.com"
-                       required />
+                <input type="email" name="correo" class="form-control register-input" placeholder="tu@correo.com" required />
             </div>
 
             <div class="register-form-group">
                 <label class="form-label">Contraseña</label>
-                <input type="password"
-                       name="password"
+                <input type="password" name="password" class="form-control register-input" placeholder="••••••••" required />
+            </div>
+
+            <!-- NUEVO: Selección de Rol -->
+            <div class="register-form-group">
+                <label class="form-label">¿Cómo deseas participar?</label>
+                <!-- Usamos la clase form-select de tu site.css -->
+                <select name="tipo_usuario" id="tipoUsuario" class="form-select register-input" required onchange="toggleValidacion()">
+                    <option value="Usuario" selected>Ciudadano (Quiero reciclar)</option>
+                    <option value="Recolector">Recolector (Quiero recoger material)</option>
+                </select>
+            </div>
+
+            <!-- NUEVO: Campo de Validación Oculto -->
+            <div class="register-form-group" id="campoValidacion" style="display: none;">
+                <label class="form-label">Validación (RFC o CURP)</label>
+                <input type="text"
+                       name="documento_identidad"
+                       id="documento_identidad"
                        class="form-control register-input"
-                       placeholder="••••••••"
-                       required />
+                       placeholder="Ingresa tu RFC o CURP" />
+                <small class="form-text text-muted" style="font-size: 0.8rem;">Requerido por seguridad para ser recolector oficial.</small>
             </div>
 
             <button type="submit" class="btn btn-primary register-btn">
@@ -60,3 +68,23 @@
 
     </div>
 </div>
+
+<!-- NUEVO: Lógica dinámica para mostrar/ocultar el campo -->
+<script>
+    function toggleValidacion() {
+        var selectRol = document.getElementById("tipoUsuario");
+        var contenedorValidacion = document.getElementById("campoValidacion");
+        var inputDocumento = document.getElementById("documento_identidad");
+
+        // Si el usuario elige "Recolector", mostramos el campo y lo hacemos obligatorio
+        if (selectRol.value === "Recolector") {
+            contenedorValidacion.style.display = "block";
+            inputDocumento.setAttribute("required", "required");
+        } else {
+            // Si elige "Usuario", ocultamos el campo, quitamos el obligatorio y limpiamos el valor
+            contenedorValidacion.style.display = "none";
+            inputDocumento.removeAttribute("required");
+            inputDocumento.value = "";
+        }
+    }
+</script>

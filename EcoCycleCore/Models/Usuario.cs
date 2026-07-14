@@ -28,4 +28,6 @@ public partial class Usuario
     public virtual ICollection<Entrega> Entregas { get; set; } = new List<Entrega>();
 
     public virtual ICollection<Publicacione> Publicaciones { get; set; } = new List<Publicacione>();
+
+    public string? DocumentoIdentidad { get; set; }
 }

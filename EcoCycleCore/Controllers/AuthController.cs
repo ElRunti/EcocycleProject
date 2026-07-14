@@ -14,7 +14,6 @@ namespace EcoCycleCore.Controllers
             _context = context;
         }
 
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -71,7 +70,9 @@ namespace EcoCycleCore.Controllers
         public IActionResult Register(
             string nombre,
             string correo,
-            string password
+            string password,
+            string tipo_usuario,          // <-- RECIBE EL ROL DESDE EL FORMULARIO
+            string? documento_identidad   // <-- RECIBE EL RFC/CURP (PUEDE SER NULO)
         )
         {
             var existe = _context.Usuarios
@@ -88,7 +89,13 @@ namespace EcoCycleCore.Controllers
                 Nombre = nombre,
                 Correo = correo,
                 ContrasenaHash = BCrypt.Net.BCrypt.HashPassword(password),
-                TipoUsuario = "usuario",
+
+                // ASIGNAMOS LOS VALORES DINÁMICOS
+                TipoUsuario = tipo_usuario,
+
+                // SI ES RECOLECTOR, GUARDAMOS EL DOCUMENTO. SI ES USUARIO NORMAL, QUEDA EN NULL
+                DocumentoIdentidad = tipo_usuario == "Recolector" ? documento_identidad : null,
+
                 FechaRegistro = DateTime.Now,
                 PuntosAcumulacion = 0
             };
@@ -110,4 +117,3 @@ namespace EcoCycleCore.Controllers
         }
     }
 }
-
