@@ -82,19 +82,19 @@
 
                             </a>
                         </li>
+                        @if (rol == "admin") {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                asp-area=""
+                                asp-controller="Materiales"
+                                asp-action="Index">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Materiales"
-                               asp-action="Index">
+                                    Materiales
 
-                                Materiales
+                                </a>
+                            </li>
+                        }
 
-                            </a>
-                        </li>
-
-                        
                         @if (rol == "admin")
                         {
                             <li class="nav-item">
