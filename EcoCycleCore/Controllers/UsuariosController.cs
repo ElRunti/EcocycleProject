@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcoCycleCore.Models;
@@ -12,45 +11,40 @@ public class UsuariosController : Controller
         _context = context;
     }
 
-    // GET: USUARIOS
-    public async Task<IActionResult> Index()    
+    // GET: Usuarios
+    public async Task<IActionResult> Index()
     {
         return View(await _context.Usuarios.ToListAsync());
     }
 
-    // GET: USUARIOS/Details/5
-    public async Task<IActionResult> Details(int? usuarioid)
+    // GET: Usuarios/Details/5
+    public async Task<IActionResult> Details(int? id)
     {
-        if (usuarioid == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var usuario = await _context.Usuarios
-            .FirstOrDefaultAsync(m => m.UsuarioId == usuarioid);
-        if (usuario == null)
-        {
-            return NotFound();
-        }
+            .FirstOrDefaultAsync(m => m.UsuarioId == id);
+
+        if (usuario == null) return NotFound();
 
         return View(usuario);
     }
 
-    // GET: USUARIOS/Create
+    // GET: Usuarios/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: USUARIOS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    // POST: Usuarios/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Correo,ContrasenaHash,Telefono,Direccion,TipoUsuario,PuntosAcumulacion,FechaRegistro,Canjes,Entregas,Publicaciones")] Usuario usuario)
+    public async Task<IActionResult> Create([Bind("Nombre,Correo,ContrasenaHash,Telefono,Direccion,TipoUsuario")] Usuario usuario)
     {
         if (ModelState.IsValid)
         {
+            usuario.PuntosAcumulacion = 0;
+            usuario.FechaRegistro = DateTime.Now;
             _context.Add(usuario);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -58,33 +52,23 @@ public class UsuariosController : Controller
         return View(usuario);
     }
 
-    // GET: USUARIOS/Edit/5
-    public async Task<IActionResult> Edit(int? usuarioid)
+    // GET: Usuarios/Edit/5
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (usuarioid == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
-        var usuario = await _context.Usuarios.FindAsync(usuarioid);
-        if (usuario == null)
-        {
-            return NotFound();
-        }
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null) return NotFound();
+
         return View(usuario);
     }
 
-    // POST: USUARIOS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    // POST: Usuarios/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? usuarioid, [Bind("UsuarioId,Nombre,Correo,ContrasenaHash,Telefono,Direccion,TipoUsuario,PuntosAcumulacion,FechaRegistro,Canjes,Entregas,Publicaciones")] Usuario usuario)
+    public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Nombre,Correo,ContrasenaHash,Telefono,Direccion,TipoUsuario,PuntosAcumulacion,FechaRegistro")] Usuario usuario)
     {
-        if (usuarioid != usuario.UsuarioId)
-        {
-            return NotFound();
-        }
+        if (id != usuario.UsuarioId) return NotFound();
 
         if (ModelState.IsValid)
         {
@@ -96,43 +80,34 @@ public class UsuariosController : Controller
             catch (DbUpdateConcurrencyException)
             {
                 if (!UsuarioExists(usuario.UsuarioId))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
             return RedirectToAction(nameof(Index));
         }
         return View(usuario);
     }
 
-    // GET: USUARIOS/Delete/5
-    public async Task<IActionResult> Delete(int? usuarioid)
+    // GET: Usuarios/Delete/5
+    public async Task<IActionResult> Delete(int? id)
     {
-        if (usuarioid == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var usuario = await _context.Usuarios
-            .FirstOrDefaultAsync(m => m.UsuarioId == usuarioid);
-        if (usuario == null)
-        {
-            return NotFound();
-        }
+            .FirstOrDefaultAsync(m => m.UsuarioId == id);
+
+        if (usuario == null) return NotFound();
 
         return View(usuario);
     }
 
-    // POST: USUARIOS/Delete/5
+    // POST: Usuarios/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? usuarioid)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var usuario = await _context.Usuarios.FindAsync(usuarioid);
+        var usuario = await _context.Usuarios.FindAsync(id);
         if (usuario != null)
         {
             _context.Usuarios.Remove(usuario);
@@ -142,34 +117,25 @@ public class UsuariosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool UsuarioExists(int? usuarioid)
-    {
-        return _context.Usuarios.Any(e => e.UsuarioId == usuarioid);
-    }
-    // GET: USUARIOS/Profile
+    // GET: Usuarios/Profile
     public async Task<IActionResult> Profile()
     {
-        // 1. Obtenemos el valor de la sesión (nombre o correo)
         var sesionUsuario = HttpContext.Session.GetString("usuario");
 
-        // 2. Verificamos si hay una sesión activa
         if (string.IsNullOrEmpty(sesionUsuario))
-        {
-            // Si no está logueado, lo mandamos al Login
             return RedirectToAction("Login", "Auth");
-        }
 
-        // 3. Buscamos al usuario en la base de datos usando el valor de la sesión.
-        // NOTA: Si en tu sesión guardas el 'Correo' en lugar del 'Nombre', cambia m.Nombre por m.Correo
         var usuario = await _context.Usuarios
-            .Include(u => u.Publicaciones) // Trae la lista de publicaciones del usuario
+            .Include(u => u.Publicaciones)
             .FirstOrDefaultAsync(m => m.Nombre == sesionUsuario);
 
-        if (usuario == null)
-        {
-            return NotFound();
-        }
+        if (usuario == null) return NotFound();
 
         return View(usuario);
+    }
+
+    private bool UsuarioExists(int id)
+    {
+        return _context.Usuarios.Any(e => e.UsuarioId == id);
     }
 }
