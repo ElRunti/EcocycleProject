@@ -3,8 +3,9 @@
 
 @using Microsoft.AspNetCore.Http
 @{
-    var usuario = Context.Session.GetString("usuario");
+    var usuarioNombre = Context.Session.GetString("usuario");
     var rol = Context.Session.GetString("rol");
+    bool estaLogueado = !string.IsNullOrEmpty(usuarioNombre);
 }
 
 <!DOCTYPE html>
@@ -43,104 +44,109 @@
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
+                    @if (!estaLogueado)
+                    {
                     <ul class="navbar-nav flex-grow-1">
+                        
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
-
-                                Home
-
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Privacy">
-
-                                Privacy
-
-                            </a>
-                        </li>
-
-                    </ul>
-
-                    <ul class="navbar-nav flex-grow-1">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
-
-                                Home
-
-                            </a>
-                        </li>
-                        @if (rol == "admin") {
                             <li class="nav-item">
                                 <a class="nav-link text-dark"
                                 asp-area=""
-                                asp-controller="Materiales"
+                                asp-controller="Home"
                                 asp-action="Index">
 
-                                    Materiales
+                                    Home
 
                                 </a>
                             </li>
-                        }
 
-                        @if (rol == "admin")
-                        {
                             <li class="nav-item">
-
                                 <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Usuarios"
-                                   asp-action="Index">
+                                asp-area=""
+                                asp-controller="Home"
+                                asp-action="Privacy">
 
-                                    Usuarios
+                                    Privacy
 
                                 </a>
-
                             </li>
+
+                            </ul>
                         }
-                       
+                    @if (estaLogueado)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                asp-area=""
+                                asp-controller="Home"
+                                asp-action="Index">
+
+                                    Home
+
+                                </a>
+                            </li>
+                            @if (rol == "admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark"
+                                    asp-area=""
+                                    asp-controller="Materiales"
+                                    asp-action="Index">
+
+                                        Materiales
+
+                                    </a>
+                                </li>
+                            }
+
+                            @if (rol == "admin")
+                            {
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                    asp-area=""
+                                    asp-controller="Usuarios"
+                                    asp-action="Index">
+
+                                        Usuarios
+
+                                    </a>
+
+                                </li>
+                            }
 
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Publicaciones"
-                               asp-action="Index">
 
-                                Publicaciones
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                asp-area=""
+                                asp-controller="Publicaciones"
+                                asp-action="Index">
 
-                            </a>
-                        </li>
+                                    Publicaciones
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Entregas"
-                               asp-action="Index">
+                                </a>
+                            </li>
 
-                                Entregas
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                asp-area=""
+                                asp-controller="Entregas"
+                                asp-action="Index">
 
-                            </a>
-                        </li>
+                                    Entregas
 
-                    </ul>
+                                </a>
+                            </li>
 
+                        </ul>
+                    }
                     <!-- LOGIN / USUARIO -->
                     <ul class="navbar-nav">
 
-                        @if (usuario == null)
+                        @if (usuarioNombre == null)
                         {
                             <li class="nav-item">
 
@@ -165,7 +171,7 @@
                                    data-bs-toggle="dropdown">
 
                                     <i class="bi bi-person-circle me-1"></i>
-                                    @usuario
+                                    @usuarioNombre
 
                                 </a>
 

@@ -1,33 +1,80 @@
 ﻿@{
     ViewData["Title"] = "Inicio";
+    var usuarioNombre = Context.Session.GetString("usuario");
+    var rol = Context.Session.GetString("rol");
+    bool estaLogueado = !string.IsNullOrEmpty(usuarioNombre);
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" />
 }
+
 <div class="eco-page">
 
     <!-- HERO -->
     <section class="eco-hero text-center">
         <div class="container">
             <span class="eco-eyebrow"><i class="bi bi-recycle"></i> Recicla con propósito</span>
-            <h1 class="mt-3 mx-auto">Cada botella que entregas se convierte en puntos reales</h1>
-            <p class="lead mx-auto mt-3">
-                Publica tu material reciclable, llévalo a un punto de recolección y obtén
-                puntos automáticamente al pesarlo. Canjéalos por recompensas en tiendas aliadas.
-            </p>
+            @if (estaLogueado)
+            {
+                <h1 class="mt-3 mx-auto">¡Bienvenido de vuelta, @usuarioNombre!</h1>
+                <p class="lead mx-auto mt-3">
+                    Sigue acumulando puntos y ayudando al planeta. Aquí tienes un resumen de tu actividad.
+                </p>
+            }
+            else
+            {
+                <h1 class="mt-3 mx-auto">Cada botella que entregas se convierte en puntos reales</h1>
+                <p class="lead mx-auto mt-3">
+                    Publica tu material reciclable, llévalo a un punto de recolección y obtén
+                    puntos automáticamente al pesarlo. Canjéalos por recompensas en tiendas aliadas.
+                </p>
+            }
             <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-                <a asp-controller="Publicaciones" asp-action="Create" class="btn-eco-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Publicar material
-                </a>
-                <a asp-controller="Cupones" asp-action="Index" class="btn-eco-ghost">
-                    Ver recompensas
-                </a>
+                @if (estaLogueado)
+                {
+                    @if (rol == "Ciudadano")
+                    {
+                        <a asp-controller="Publicaciones" asp-action="Create" class="btn-eco-primary">
+                            <i class="bi bi-plus-circle me-1"></i> Publicar material
+                        </a>
+                        <a asp-controller="Cupones" asp-action="Index" class="btn-eco-ghost">
+                            Ver recompensas
+                        </a>
+                    }
+                    else if (rol == "Admin")
+                    {
+                        <a asp-controller="Usuarios" asp-action="Index" class="btn-eco-primary">
+                            <i class="bi bi-people me-1"></i> Gestionar usuarios
+                        </a>
+                        <a asp-controller="Materiales" asp-action="Index" class="btn-eco-ghost">
+                            Ver materiales
+                        </a>
+                    }
+                    else if (rol == "Recolector" || rol == "Centro")
+                    {
+                        <a asp-controller="Entregas" asp-action="Create" class="btn-eco-primary">
+                            <i class="bi bi-clipboard-check me-1"></i> Registrar entrega
+                        </a>
+                        <a asp-controller="Entregas" asp-action="Index" class="btn-eco-ghost">
+                            Ver entregas
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="btn-eco-primary">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+                    </a>
+                    <a asp-controller="Cupones" asp-action="Index" class="btn-eco-ghost">
+                        Ver recompensas
+                    </a>
+                }
             </div>
         </div>
     </section>
 
-    <!-- STATS -->
+    <!-- STATS GENERALES (siempre visibles) -->
     <div class="container eco-stats">
         <div class="row g-3">
             <div class="col-6 col-lg-3">
@@ -57,104 +104,257 @@
         </div>
     </div>
 
-    <!-- COMO FUNCIONA -->
-    <section class="eco-section">
-        <div class="container">
-            <div class="eco-section-title text-center mb-5">
-                <div class="tag">El proceso</div>
-                <h2 class="mt-2">Así funciona EcoCycle</h2>
+    <!-- PANEL ADMIN -->
+    @if (estaLogueado && rol == "Admin")
+    {
+        <section class="eco-section pt-4">
+            <div class="container">
+                <div class="eco-section-title mb-4">
+                    <div class="tag">Panel de administración</div>
+                    <h2 class="mt-2">Resumen del sistema</h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-people-fill"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Total de usuarios</div>
+                                <div class="eco-panel-value">@ViewBag.TotalUsuarios</div>
+                            </div>
+                            <a asp-controller="Usuarios" asp-action="Index" class="eco-panel-link">
+                                Ver todos <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-star-fill"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Puntos totales otorgados</div>
+                                <div class="eco-panel-value">@ViewBag.TotalPuntos</div>
+                            </div>
+                            <a asp-controller="Entregas" asp-action="Index" class="eco-panel-link">
+                                Ver entregas <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-box-seam"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Publicaciones activas</div>
+                                <div class="eco-panel-value">@ViewBag.TotalPublicaciones</div>
+                            </div>
+                            <a asp-controller="Publicaciones" asp-action="Index" class="eco-panel-link">
+                                Ver publicaciones <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-ticket-perforated"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Canjes realizados</div>
+                                <div class="eco-panel-value">@ViewBag.TotalCanjes</div>
+                            </div>
+                            <a asp-controller="Canjes" asp-action="Index" class="eco-panel-link">
+                                Ver canjes <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-recycle"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">kg totales recolectados</div>
+                                <div class="eco-panel-value">@ViewBag.TotalKilos kg</div>
+                            </div>
+                            <a asp-controller="Entregas" asp-action="Index" class="eco-panel-link">
+                                Ver detalle <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-tags"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Cupones disponibles</div>
+                                <div class="eco-panel-value">@ViewBag.TotalCupones</div>
+                            </div>
+                            <a asp-controller="Cupones" asp-action="Index" class="eco-panel-link">
+                                Gestionar <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row g-4">
-                <div class="col-md-3 position-relative">
-                    <div class="step-card">
-                        <div class="step-icon"><i class="bi bi-camera"></i></div>
-                        <h6>1. Publica</h6>
-                        <p class="text-muted small mb-0">Sube una foto de tu material reciclable, su peso aproximado y ubicación.</p>
-                    </div>
-                    <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
-                </div>
-                <div class="col-md-3 position-relative">
-                    <div class="step-card">
-                        <div class="step-icon"><i class="bi bi-truck"></i></div>
-                        <h6>2. Entrega</h6>
-                        <p class="text-muted small mb-0">Llévalo a un punto de recolección cercano.</p>
-                    </div>
-                    <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
-                </div>
-                <div class="col-md-3 position-relative">
-                    <div class="step-card">
-                        <div class="step-icon"><i class="bi bi-clipboard-check"></i></div>
-                        <h6>3. Pesaje</h6>
-                        <p class="text-muted small mb-0">El centro pesa tu material y registra la entrega en el sistema.</p>
-                    </div>
-                    <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
-                </div>
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="step-icon"><i class="bi bi-gift"></i></div>
-                        <h6>4. Canjea</h6>
-                        <p class="text-muted small mb-0">Usa tus puntos acumulados para canjear cupones en tiendas aliadas.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    }
 
-    <!-- MODULOS -->
-    <section class="eco-section pt-0">
-        <div class="container">
-            <div class="eco-section-title text-center mb-5">
-                <div class="tag">Gestión</div>
-                <h2 class="mt-2">Módulos que te pueden servir</h2>
+    <!-- PANEL RECOLECTOR / CENTRO -->
+    @if (estaLogueado && (rol == "Recolector" || rol == "Centro"))
+    {
+        <section class="eco-section pt-4">
+            <div class="container">
+                <div class="eco-section-title mb-4">
+                    <div class="tag">Panel de recolección</div>
+                    <h2 class="mt-2">Tu actividad de hoy</h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-clipboard-check"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Entregas registradas hoy</div>
+                                <div class="eco-panel-value">@ViewBag.EntregasHoy</div>
+                            </div>
+                            <a asp-controller="Entregas" asp-action="Index" class="eco-panel-link">
+                                Ver todas <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-recycle"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">kg recolectados hoy</div>
+                                <div class="eco-panel-value">@ViewBag.KilosHoy kg</div>
+                            </div>
+                            <a asp-controller="Entregas" asp-action="Create" class="eco-panel-link">
+                                Registrar entrega <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-megaphone"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Publicaciones pendientes</div>
+                                <div class="eco-panel-value">@ViewBag.PublicacionesPendientes</div>
+                            </div>
+                            <a asp-controller="Publicaciones" asp-action="Index" class="eco-panel-link">
+                                Ver pendientes <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <a asp-controller="Materiales" asp-action="Index" class="module-card">
-                        <div class="icon"><i class="bi bi-box-seam"></i></div>
-                        <h6>Materiales</h6>
-                        <p class="text-muted small">Catálogo de materiales reciclables y sus puntos por kilo.</p>
-                        <span class="go">Ver materiales <i class="bi bi-arrow-right"></i></span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a asp-controller="Usuarios" asp-action="Index" class="module-card">
-                        <div class="icon"><i class="bi bi-people"></i></div>
-                        <h6>Usuarios</h6>
-                        <p class="text-muted small">Cuentas registradas y puntos acumulados.</p>
-                        <span class="go">Ver usuarios <i class="bi bi-arrow-right"></i></span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a asp-controller="Publicaciones" asp-action="Index" class="module-card">
-                        <div class="icon"><i class="bi bi-megaphone"></i></div>
-                        <h6>Publicaciones</h6>
-                        <p class="text-muted small">Material disponible para recolección.</p>
-                        <span class="go">Ver publicaciones <i class="bi bi-arrow-right"></i></span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a asp-controller="Entregas" asp-action="Index" class="module-card">
-                        <div class="icon"><i class="bi bi-clipboard-check"></i></div>
-                        <h6>Entregas</h6>
-                        <p class="text-muted small">Pesajes registrados y puntos otorgados.</p>
-                        <span class="go">Ver entregas <i class="bi bi-arrow-right"></i></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    }
 
-    <!-- CTA FINAL -->
-    <section class="eco-section pt-0">
-        <div class="container">
-            <div class="eco-cta text-center">
-                <h3>¿Tienes material listo para entregar?</h3>
-                <p class="text-muted mb-4">Publícalo ahora y empieza a acumular puntos.</p>
-                <a asp-controller="Publicaciones" asp-action="Create" class="btn-eco-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Publicar material
-                </a>
+    <!-- PANEL CIUDADANO -->
+    @if (estaLogueado && rol == "Ciudadano")
+    {
+        <section class="eco-section pt-4">
+            <div class="container">
+                <div class="eco-section-title mb-4">
+                    <div class="tag">Mi actividad</div>
+                    <h2 class="mt-2">Tu resumen</h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-star-fill"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Mis puntos disponibles</div>
+                                <div class="eco-panel-value">@ViewBag.MisPuntos pts</div>
+                            </div>
+                            <a asp-controller="Cupones" asp-action="Index" class="eco-panel-link">
+                                Canjear puntos <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-megaphone"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Mis publicaciones activas</div>
+                                <div class="eco-panel-value">@ViewBag.MisPublicaciones</div>
+                            </div>
+                            <a asp-controller="Publicaciones" asp-action="Create" class="eco-panel-link">
+                                Nueva publicación <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="eco-panel-card">
+                            <div class="eco-panel-icon"><i class="bi bi-ticket-perforated"></i></div>
+                            <div class="eco-panel-body">
+                                <div class="eco-panel-label">Cupones canjeados</div>
+                                <div class="eco-panel-value">@ViewBag.MisCanjes</div>
+                            </div>
+                            <a asp-controller="Canjes" asp-action="Index" class="eco-panel-link">
+                                Ver mis canjes <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    }
+
+    <!-- COMO FUNCIONA (solo si no está logueado) -->
+    @if (!estaLogueado)
+    {
+        <section class="eco-section">
+            <div class="container">
+                <div class="eco-section-title text-center mb-5">
+                    <div class="tag">El proceso</div>
+                    <h2 class="mt-2">Así funciona EcoCycle</h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-3 position-relative">
+                        <div class="step-card">
+                            <div class="step-icon"><i class="bi bi-camera"></i></div>
+                            <h6>1. Publica</h6>
+                            <p class="text-muted small mb-0">Sube una foto de tu material reciclable, su peso aproximado y ubicación.</p>
+                        </div>
+                        <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                    <div class="col-md-3 position-relative">
+                        <div class="step-card">
+                            <div class="step-icon"><i class="bi bi-truck"></i></div>
+                            <h6>2. Entrega</h6>
+                            <p class="text-muted small mb-0">Llévalo a un punto de recolección cercano.</p>
+                        </div>
+                        <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                    <div class="col-md-3 position-relative">
+                        <div class="step-card">
+                            <div class="step-icon"><i class="bi bi-clipboard-check"></i></div>
+                            <h6>3. Pesaje</h6>
+                            <p class="text-muted small mb-0">El centro pesa tu material y registra la entrega en el sistema.</p>
+                        </div>
+                        <div class="step-connector"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="step-card">
+                            <div class="step-icon"><i class="bi bi-gift"></i></div>
+                            <h6>4. Canjea</h6>
+                            <p class="text-muted small mb-0">Usa tus puntos acumulados para canjear cupones en tiendas aliadas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA REGISTRO -->
+        <section class="eco-section pt-0">
+            <div class="container">
+                <div class="eco-cta text-center">
+                    <h3>¿Listo para empezar a reciclar?</h3>
+                    <p class="text-muted mb-4">Crea tu cuenta gratis y empieza a ganar puntos por cada entrega.</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a asp-controller="Auth" asp-action="Register" class="btn-eco-primary">
+                            <i class="bi bi-person-plus me-1"></i> Crear cuenta
+                        </a>
+                        <a asp-controller="Auth" asp-action="Login" class="btn-eco-ghost">
+                            Ya tengo cuenta
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
 
 </div>
