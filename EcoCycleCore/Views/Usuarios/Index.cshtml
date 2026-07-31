@@ -1,95 +1,96 @@
 @model IEnumerable<EcoCycleCore.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Usuarios";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/usuarios.css" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContrasenaHash)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PuntosAcumulacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Canjes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Entregas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publicaciones)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ContrasenaHash)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.TipoUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.PuntosAcumulacion)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Canjes)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Entregas)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Publicaciones)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UsuarioId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UsuarioId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UsuarioId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Administración</div>
+                <h1>Usuarios registrados</h1>
+                <p>Gestión de cuentas, tipos de usuario y puntos acumulados.</p>
+            </div>
+            <a asp-action="Create" class="btn-eco-primary">
+                <i class="bi bi-person-plus me-1"></i> Nuevo usuario
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th>Puntos</th>
+                    <th>Contraseña</th>
+                    <th>Registro</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="td-nombre">
+                                <span class="usuario-avatar">
+                                    @item.Nombre.Substring(0, 1).ToUpper()
+                                </span>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </div>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                        <td>@(item.Telefono ?? "—")</td>
+                        <td>
+                            <span class="badge-tipo @(item.TipoUsuario?.ToLower() == "admin" ? "badge-admin" :
+                                                                                     item.TipoUsuario?.ToLower() == "centro" ? "badge-centro" :
+                                                                                     "badge-ciudadano")">
+                            @Html.DisplayFor(modelItem => item.TipoUsuario)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="puntos-badge">
+                            <i class="bi bi-star-fill"></i>
+                            @(item.PuntosAcumulacion ?? 0)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="contrasena-hidden" title="Hash almacenado (no visible)">
+                            ••••••••
+                        </span>
+                    </td>
+                    <td>@item.FechaRegistro?.ToString("dd/MM/yyyy")</td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </td>
+                </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-people"></i>
+            <p class="mt-2 mb-0">Todavía no hay usuarios registrados.</p>
+        </div>
+    }
+</div>
