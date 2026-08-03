@@ -1,77 +1,178 @@
 @model IEnumerable<EcoCycleCore.Models.Publicacione>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Publicaciones";
+
+    var rol = Context.Session.GetString("rol");
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">Publicaciones</h2>
+        <p class="text-muted mb-0">
+            @if (rol == "Admin")
+            {
+                <span>Administración de publicaciones.</span>
+            }
+            else if (rol == "Recolector")
+            {
+                <span>Material disponible para recolección.</span>
+            }
+            else
+            {
+                <span>Mis publicaciones.</span>
+            }
+        </p>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PesoCantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ubicacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UrlImagen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaPublicacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Material)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PesoCantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ubicacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UrlImagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaPublicacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Material.MaterialId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UsuarioId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PublicacionesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PublicacionesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PublicacionesId">Delete</a>
-            </td>
-        </tr>
+    @if (rol == "Usuario")
+    {
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i>
+            Nueva publicación
+        </a>
+    }
+</div>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                @if (!string.IsNullOrEmpty(item.UrlImagen))
+                {
+                    <img src="@item.UrlImagen"
+                         class="card-img-top"
+                         style="height:220px; object-fit:cover;" />
+                }
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        @item.Material.NombreMaterial
+                    </h5>
+
+                    <p class="card-text">
+                        @item.Descripcion
+                    </p>
+
+                    <hr />
+
+                    <p class="mb-1">
+                        <strong>Peso:</strong>
+                        @item.PesoCantidad kg
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Ubicación:</strong>
+                        @item.Ubicacion
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Publicado por:</strong>
+                        @item.Usuario.Nombre
+                    </p>
+
+                    <p class="mb-3">
+                        <strong>Estado:</strong>
+
+                        @switch (item.Estado)
+                        {
+                            case "Pendiente":
+                                <span class="badge bg-warning text-dark">
+                                    Pendiente
+                                </span>
+                                break;
+
+                            case "Solicitada":
+                                <span class="badge bg-info">
+                                    Solicitada
+                                </span>
+                                break;
+
+                            case "Aceptada":
+                                <span class="badge bg-primary">
+                                    Aceptada
+                                </span>
+                                break;
+
+                            case "Entregada":
+                                <span class="badge bg-secondary">
+                                    Entregada
+                                </span>
+                                break;
+
+                            case "Finalizada":
+                                <span class="badge bg-success">
+                                    Finalizada
+                                </span>
+                                break;
+
+                            default:
+                                <span class="badge bg-dark">
+                                    @item.Estado
+                                </span>
+                                break;
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white">
+
+                    @if (rol == "Admin")
+                    {
+                        <a asp-action="Details"
+                           asp-route-id="@item.PublicacionesId"
+                           class="btn btn-outline-primary btn-sm">
+                            Ver
+                        </a>
+
+                        <a asp-action="Edit"
+                           asp-route-id="@item.PublicacionesId"
+                           class="btn btn-outline-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@item.PublicacionesId"
+                           class="btn btn-outline-danger btn-sm">
+                            Eliminar
+                        </a>
+                    }
+
+                    else if (rol == "Usuario")
+                    {
+                        <a asp-action="Details"
+                           asp-route-id="@item.PublicacionesId"
+                           class="btn btn-primary btn-sm">
+                            Ver detalles
+                        </a>
+                    }
+
+                    else if (rol == "Recolector")
+                    {
+                        <button class="btn btn-success btn-sm">
+                            Quiero recoger
+                        </button>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No hay publicaciones disponibles.
+    </div>
 }
-    </tbody>
-</table>
