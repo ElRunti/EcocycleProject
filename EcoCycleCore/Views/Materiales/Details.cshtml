@@ -1,30 +1,50 @@
 @model EcoCycleCore.Models.Materiale
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle del material";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Materiale</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreMaterial)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreMaterial)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PuntosPorKilo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PuntosPorKilo)
-        </dd>
-    </dl>
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Administración</div>
+        <h1>Detalle del material</h1>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaterialId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container-fluid mt-4">
+    <div class="eco-detail-card">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="material-icon-lg"><i class="bi bi-recycle"></i></span>
+            <div>
+                <h3 class="mb-0">@Model.NombreMaterial</h3>
+                <small class="text-muted">ID #@Model.MaterialId</small>
+            </div>
+        </div>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Nombre del material</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.NombreMaterial)</dd>
+
+            <dt class="col-sm-4">Puntos por kilo</dt>
+            <dd class="col-sm-8">
+                <span class="puntos-badge">
+                    <i class="bi bi-star-fill"></i>
+                    @Html.DisplayFor(model => model.PuntosPorKilo) pts/kg
+                </span>
+            </dd>
+
+            <dt class="col-sm-4">Ejemplo de ganancia</dt>
+            <dd class="col-sm-8 text-muted">
+                5 kg = @(Model.PuntosPorKilo * 5) pts &nbsp;|&nbsp;
+                10 kg = @(Model.PuntosPorKilo * 10) pts
+            </dd>
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+            <a asp-controller="Materiales" asp-action="Edit" asp-route-id="@Model.MaterialId" class="btn-eco-primary">
+                <i class="bi bi-pencil me-1"></i> Editar
+            </a>
+            <a asp-controller="Materiales" asp-action="Index" class="btn-eco-ghost-light">Volver al catálogo</a>
+        </div>
+    </div>
 </div>

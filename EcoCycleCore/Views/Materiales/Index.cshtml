@@ -1,41 +1,79 @@
 @model IEnumerable<EcoCycleCore.Models.Materiale>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Materiales";
 }
 
-<h1>Index</h1>
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Administración</div>
+                <h1>Catálogo de materiales</h1>
+                <p>Define qué materiales se aceptan y cuántos puntos valen por kilo.</p>
+            </div>
+            <a asp-controller="Materiales" asp-action="Create" class="btn-eco-primary">
+                <i class="bi bi-plus-circle me-1"></i> Nuevo material
+            </a>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreMaterial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PuntosPorKilo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreMaterial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PuntosPorKilo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaterialId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaterialId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaterialId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container-fluid mt-4">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Puntos por kilo</th>
+                    <th>Valor estimado (5 kg)</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="material-icon"><i class="bi bi-recycle"></i></span>
+                                <strong>@Html.DisplayFor(modelItem => item.NombreMaterial)</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="puntos-badge">
+                                <i class="bi bi-star-fill"></i>
+                                @Html.DisplayFor(modelItem => item.PuntosPorKilo) pts/kg
+                            </span>
+                        </td>
+                        <td class="text-muted">
+                            @((item.PuntosPorKilo * 5).ToString("0")) pts por 5 kg
+                        </td>
+                        <td class="text-end">
+                            <a asp-controller="Materiales" asp-action="Edit" asp-route-id="@item.MaterialId" class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-controller="Materiales" asp-action="Details" asp-route-id="@item.MaterialId" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-controller="Materiales" asp-action="Delete" asp-route-id="@item.MaterialId" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-recycle"></i>
+            <p class="mt-2 mb-0">No hay materiales registrados todavía.</p>
+            <a asp-controller="Materiales" asp-action="Create" class="btn-eco-primary mt-3">
+                <i class="bi bi-plus-circle me-1"></i> Agregar primer material
+            </a>
+        </div>
+    }
+</div>
