@@ -23,9 +23,22 @@ public partial class Publicacione
 
     public DateTime? FechaPublicacion { get; set; }
 
+    public int? RecolectorId { get; set; }
+
+ 
+    public DateTime? FechaAceptacion { get; set; }
+
+    public DateTime? FechaEntrega { get; set; }
+
+    
+    public DateTime? FechaConfirmacion { get; set; }
+
     public virtual ICollection<Entrega> Entregas { get; set; } = new List<Entrega>();
 
     public virtual Materiale Material { get; set; } = null!;
 
     public virtual Usuario Usuario { get; set; } = null!;
+
+    // NUEVO
+    public virtual Usuario? Recolector { get; set; }
 }

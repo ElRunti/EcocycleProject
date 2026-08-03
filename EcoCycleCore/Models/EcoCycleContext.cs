@@ -78,6 +78,8 @@ public partial class EcoCycleContext : DbContext
                 .HasColumnName("tienda_nombre");
         });
 
+
+
         modelBuilder.Entity<Entrega>(entity =>
         {
             entity.ToTable("ENTREGAS");
@@ -152,6 +154,20 @@ public partial class EcoCycleContext : DbContext
                 .HasMaxLength(2083)
                 .IsUnicode(false)
                 .HasColumnName("url_imagen");
+            entity.Property(e => e.RecolectorId)
+    .HasColumnName("recolector_id");
+
+            entity.Property(e => e.FechaAceptacion)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_aceptacion");
+
+            entity.Property(e => e.FechaEntrega)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_entrega");
+
+            entity.Property(e => e.FechaConfirmacion)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_confirmacion");
             entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
 
             entity.HasOne(d => d.Material).WithMany(p => p.Publicaciones)
@@ -161,6 +177,11 @@ public partial class EcoCycleContext : DbContext
             entity.HasOne(d => d.Usuario).WithMany(p => p.Publicaciones)
                 .HasForeignKey(d => d.UsuarioId)
                 .HasConstraintName("FK_PUBLICACIONES_USUARIOS");
+            entity.HasOne(d => d.Recolector)
+    .WithMany()
+    .HasForeignKey(d => d.RecolectorId)
+    .OnDelete(DeleteBehavior.NoAction)
+    .HasConstraintName("FK_PUBLICACIONES_RECOLECTOR");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

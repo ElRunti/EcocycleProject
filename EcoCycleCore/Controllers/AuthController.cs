@@ -14,6 +14,8 @@ namespace EcoCycleCore.Controllers
             _context = context;
         }
 
+        // ================= LOGIN =================
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -39,14 +41,22 @@ namespace EcoCycleCore.Controllers
 
             if (acceso)
             {
+                // Nombre del usuario
                 HttpContext.Session.SetString(
                     "usuario",
                     usuario.Nombre
                 );
 
+                // Rol
                 HttpContext.Session.SetString(
                     "rol",
                     usuario.TipoUsuario
+                );
+
+                // ID del usuario (NUEVO)
+                HttpContext.Session.SetInt32(
+                    "usuarioId",
+                    usuario.UsuarioId
                 );
 
                 return RedirectToAction(
@@ -56,9 +66,10 @@ namespace EcoCycleCore.Controllers
             }
 
             ViewBag.Error = "Contraseña incorrecta";
-
             return View();
         }
+
+        // ================= REGISTER =================
 
         [HttpGet]
         public IActionResult Register()
@@ -71,8 +82,8 @@ namespace EcoCycleCore.Controllers
             string nombre,
             string correo,
             string password,
-            string tipo_usuario,          // <-- RECIBE EL ROL DESDE EL FORMULARIO
-            string? documento_identidad   // <-- RECIBE EL RFC/CURP (PUEDE SER NULO)
+            string tipo_usuario,
+            string? documento_identidad
         )
         {
             var existe = _context.Usuarios
@@ -89,22 +100,18 @@ namespace EcoCycleCore.Controllers
                 Nombre = nombre,
                 Correo = correo,
                 ContrasenaHash = BCrypt.Net.BCrypt.HashPassword(password),
-
-                // ASIGNAMOS LOS VALORES DINÁMICOS
                 TipoUsuario = tipo_usuario,
-
-                // SI ES RECOLECTOR, GUARDAMOS EL DOCUMENTO. SI ES USUARIO NORMAL, QUEDA EN NULL
-                DocumentoIdentidad = tipo_usuario == "Recolector" ? documento_identidad : null,
-
+                DocumentoIdentidad = tipo_usuario == "Recolector"
+                    ? documento_identidad
+                    : null,
                 FechaRegistro = DateTime.Now,
                 PuntosAcumulacion = 0
             };
 
             _context.Usuarios.Add(usuario);
-
             _context.SaveChanges();
 
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
 
         // ================= LOGOUT =================
@@ -113,7 +120,10 @@ namespace EcoCycleCore.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(
+                "Index",
+                "Home"
+            );
         }
     }
 }
