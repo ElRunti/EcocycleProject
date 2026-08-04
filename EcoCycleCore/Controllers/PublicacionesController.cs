@@ -19,10 +19,43 @@ namespace EcoCycleCore.Controllers
         }
 
         // GET: Publicaciones
+        // GET: Publicaciones
         public async Task<IActionResult> Index()
         {
-            var ecoCycleContext = _context.Publicaciones.Include(p => p.Material).Include(p => p.Usuario);
-            return View(await ecoCycleContext.ToListAsync());
+            string? rol = HttpContext.Session.GetString("rol");
+            int? usuarioId = HttpContext.Session.GetInt32("usuarioId");
+
+            var publicaciones = _context.Publicaciones
+                .Include(p => p.Material)
+                .Include(p => p.Usuario)
+                .Include(p => p.Recolector)
+                .AsQueryable();
+
+            // ADMIN
+            if (rol == "Admin")
+            {
+                return View(await publicaciones.ToListAsync());
+            }
+
+            // USUARIO
+            if (rol == "Usuario")
+            {
+                publicaciones = publicaciones.Where(p => p.UsuarioId == usuarioId);
+
+                return View(await publicaciones.ToListAsync());
+            }
+
+            // RECOLECTOR
+            if (rol == "Recolector")
+            {
+                publicaciones = publicaciones.Where(p =>
+                    p.Estado == "Pendiente"
+                    || (p.RecolectorId == usuarioId && p.Estado != "Finalizada"));
+
+                return View(await publicaciones.ToListAsync());
+            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
         // GET: Publicaciones/Details/5
@@ -62,8 +95,16 @@ namespace EcoCycleCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(publicacione);
+                publicacione.UsuarioId = HttpContext.Session.GetInt32("usuarioId")!.Value;
+
+                publicacione.Estado = "Pendiente";
+
+                publicacione.FechaPublicacion = DateTime.Now;
+
+                _context.Publicaciones.Add(publicacione);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "NombreMaterial", publicacione.MaterialId);
