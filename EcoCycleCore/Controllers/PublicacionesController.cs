@@ -206,5 +206,43 @@ namespace EcoCycleCore.Controllers
         {
             return _context.Publicaciones.Any(e => e.PublicacionesId == id);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SolicitarRecoleccion(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol");
+
+            if (rol != "Recolector")
+            {
+                return Unauthorized();
+            }
+
+            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
+
+            var publicacion = await _context.Publicaciones
+                .FirstOrDefaultAsync(p => p.PublicacionesId == id);
+
+            if (publicacion == null)
+            {
+                return NotFound();
+            }
+
+            // Ya fue tomada por otro recolector
+            if (publicacion.RecolectorId != null)
+            {
+                TempData["Error"] = "Esta publicación ya fue tomada por otro recolector.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            publicacion.RecolectorId = recolectorId;
+            publicacion.Estado = "Solicitada";
+
+            await _context.SaveChangesAsync();
+
+            TempData["Ok"] = "Has solicitado esta recolección.";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
