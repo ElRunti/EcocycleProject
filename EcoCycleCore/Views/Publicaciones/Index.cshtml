@@ -157,14 +157,67 @@
                             Eliminar
                         </a>
                     }
-
                     else if (rol == "Usuario")
                     {
-                        <a asp-action="Details"
-                           asp-route-id="@item.PublicacionesId"
-                           class="btn btn-primary btn-sm">
-                            Ver detalles
-                        </a>
+                        <div class="btn-group">
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.PublicacionesId"
+                               class="btn btn-outline-primary btn-sm">
+                                Ver
+                            </a>
+
+                            @if (item.Estado == "Pendiente")
+                            {
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.PublicacionesId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    Editar
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.PublicacionesId"
+                                   class="btn btn-outline-danger btn-sm">
+                                    Eliminar
+                                </a>
+                            }
+
+                        </div>
+
+                        @if (item.Estado == "Solicitada")
+                        {
+                            <div class="mt-2">
+                                <small class="text-muted d-block mb-2">
+                                    Un recolector desea recoger este material.
+                                </small>
+
+                                <form asp-action="AceptarSolicitud"
+                                      asp-route-id="@item.PublicacionesId"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Aceptar
+                                    </button>
+
+                                </form>
+
+                                <form asp-action="RechazarSolicitud"
+                                      asp-route-id="@item.PublicacionesId"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Rechazar
+                                    </button>
+
+                                </form>
+                            </div>
+                        }
                     }
 
                     else if (rol == "Recolector")

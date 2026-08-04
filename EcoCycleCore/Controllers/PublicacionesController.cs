@@ -81,8 +81,11 @@ namespace EcoCycleCore.Controllers
         // GET: Publicaciones/Create
         public IActionResult Create()
         {
-            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "MaterialId");
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId");
+            ViewData["MaterialId"] = new SelectList(
+                _context.Materiales.OrderBy(m => m.NombreMaterial),
+                "MaterialId",
+                "NombreMaterial");
+
             return View();
         }
 
@@ -91,25 +94,45 @@ namespace EcoCycleCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PublicacionesId,UsuarioId,MaterialId,Descripcion,PesoCantidad,Ubicacion,UrlImagen,Estado,FechaPublicacion")] Publicacione publicacione)
+        public async Task<IActionResult> Create(Publicacione publicacione)
         {
-            if (ModelState.IsValid)
+            var usuarioId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (usuarioId == null)
             {
-                publicacione.UsuarioId = HttpContext.Session.GetInt32("usuarioId")!.Value;
-
-                publicacione.Estado = "Pendiente";
-
-                publicacione.FechaPublicacion = DateTime.Now;
-
-                _context.Publicaciones.Add(publicacione);
-
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Login", "Auth");
             }
-            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "NombreMaterial", publicacione.MaterialId);
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId", publicacione.UsuarioId);
-            return View(publicacione);
+
+            // Quitamos validaciones de propiedades que NO vienen del formulario
+            ModelState.Remove("Estado");
+            ModelState.Remove("FechaPublicacion");
+            ModelState.Remove("Usuario");
+            ModelState.Remove("Material");
+            ModelState.Remove("Recolector");
+
+            // Asignamos los valores automáticamente
+            publicacione.UsuarioId = usuarioId.Value;
+            publicacione.Estado = "Pendiente";
+            publicacione.FechaPublicacion = DateTime.Now;
+            publicacione.RecolectorId = null;
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["MaterialId"] = new SelectList(
+                    _context.Materiales,
+                    "MaterialId",
+                    "NombreMaterial",
+                    publicacione.MaterialId);
+
+                return View(publicacione);
+            }
+
+            _context.Publicaciones.Add(publicacione);
+            await _context.SaveChangesAsync();
+
+            TempData["Ok"] = "La publicación fue creada correctamente.";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Publicaciones/Edit/5
@@ -162,7 +185,7 @@ namespace EcoCycleCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "MaterialId", publicacione.MaterialId);
+            ViewData["MaterialId"] = new SelectList(_context.Materiales, "MaterialId", "NombreMaterial", publicacione.MaterialId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId", publicacione.UsuarioId);
             return View(publicacione);
         }
@@ -244,5 +267,65 @@ namespace EcoCycleCore.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AceptarSolicitud(int id)
+        {
+            if (HttpContext.Session.GetString("rol") != "Usuario")
+                return Unauthorized();
+
+            int usuarioId = HttpContext.Session.GetInt32("usuarioId").Value;
+
+            var publicacion = await _context.Publicaciones
+                .FirstOrDefaultAsync(p => p.PublicacionesId == id);
+
+            if (publicacion == null)
+                return NotFound();
+
+            if (publicacion.UsuarioId != usuarioId)
+                return Unauthorized();
+
+            if (publicacion.RecolectorId == null)
+            {
+                TempData["Error"] = "La publicación no tiene un recolector asignado.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            publicacion.Estado = "Aceptada";
+
+            await _context.SaveChangesAsync();
+
+            TempData["Ok"] = "Has aceptado al recolector.";
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RechazarSolicitud(int id)
+        {
+            if (HttpContext.Session.GetString("rol") != "Usuario")
+                return Unauthorized();
+
+            int usuarioId = HttpContext.Session.GetInt32("usuarioId").Value;
+
+            var publicacion = await _context.Publicaciones
+                .FirstOrDefaultAsync(p => p.PublicacionesId == id);
+
+            if (publicacion == null)
+                return NotFound();
+
+            if (publicacion.UsuarioId != usuarioId)
+                return Unauthorized();
+
+            publicacion.RecolectorId = null;
+            publicacion.Estado = "Pendiente";
+
+            await _context.SaveChangesAsync();
+
+            TempData["Ok"] = "Solicitud rechazada.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
