@@ -2,72 +2,69 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Crear Publicación";
+    ViewData["Title"] = "Nueva publicación";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Nueva Publicación de Reciclaje</h4>
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Publicaciones</div>
+        <h1>Nueva publicación de reciclaje</h1>
+        <p>Registra el material que quieres entregar para empezar a ganar puntos.</p>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+    <div class="eco-form-card" style="max-width: 760px;">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <label asp-for="MaterialId" class="form-label">Material a reciclar</label>
+                    <select asp-for="MaterialId" class="form-select" asp-items="ViewBag.MaterialId" required>
+                        <option value="">-- Selecciona un material --</option>
+                    </select>
+                    <span asp-validation-for="MaterialId" class="text-danger"></span>
                 </div>
-                <div class="card-body">
-                    <form asp-action="Create" method="post">
-                        <div asp-validation-summary="All" class="alert alert-danger"></div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label asp-for="MaterialId" class="form-label fw-bold">
-                                    Material a reciclar
-                                </label>
-
-                                <select asp-for="MaterialId"
-                                        class="form-select"
-                                        asp-items="ViewBag.MaterialId"
-                                        required>
-                                    <option value="">-- Selecciona un material --</option>
-                                </select>
-
-                                <span asp-validation-for="MaterialId" class="text-danger"></span>
-                            </div>
-                        </div>
-                            <div class="col-md-6">
-                                <label asp-for="PesoCantidad" class="form-label fw-bold">Peso / Cantidad (Kg)</label>
-                                <input asp-for="PesoCantidad" class="form-control" type="number" step="0.01" placeholder="Ej. 2.5" required />
-                                <span asp-validation-for="PesoCantidad" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
-                            <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Describe los detalles de los materiales..."></textarea>
-                            <span asp-validation-for="Descripcion" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Ubicacion" class="form-label fw-bold">Ubicación de recolección</label>
-                            <input asp-for="Ubicacion" class="form-control" placeholder="Dirección o punto de encuentro" required />
-                            <span asp-validation-for="Ubicacion" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="UrlImagen" class="form-label fw-bold">URL de la Imagen (Opcional)</label>
-                            <input asp-for="UrlImagen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
-                            <span asp-validation-for="UrlImagen" class="text-danger"></span>
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a asp-action="Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> Volver a la lista
-                            </a>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-save"></i> Crear Publicación
-                            </button>
-                        </div>
-                    </form>
+                <div class="col-md-6">
+                    <label asp-for="PesoCantidad" class="form-label">Peso / Cantidad (kg)</label>
+                    <div class="input-group">
+                        <input asp-for="PesoCantidad" class="form-control" type="number" step="0.01" placeholder="Ej. 2.5" required />
+                        <span class="input-group-text" style="background:var(--eco-sage);border-color:var(--eco-line);color:var(--eco-forest);font-weight:600;">kg</span>
+                    </div>
+                    <span asp-validation-for="PesoCantidad" class="text-danger"></span>
                 </div>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label">Descripción</label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Describe los detalles del material que vas a entregar..."></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Ubicacion" class="form-label">Ubicación de recolección</label>
+                <input asp-for="Ubicacion" class="form-control" placeholder="Dirección o punto de encuentro" required />
+                <span asp-validation-for="Ubicacion" class="text-danger"></span>
+                <div class="form-text">¿Dónde puede pasar el recolector a recoger tu material?</div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="UrlImagen" class="form-label">URL de imagen <span class="text-muted fw-normal">(opcional)</span></label>
+                <input asp-for="UrlImagen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
+                <span asp-validation-for="UrlImagen" class="text-danger"></span>
+                <div class="form-text">Agrega una foto del material para que el recolector lo identifique más fácil.</div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn-eco-primary">
+                    <i class="bi bi-save me-1"></i> Crear publicación
+                </button>
+                <a asp-controller="Publicaciones" asp-action="Index" class="btn-eco-ghost-light">
+                    <i class="bi bi-arrow-left me-1"></i> Cancelar
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 
