@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\views\\publicaciones\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|c:\\users\\diana\\desktop\\ecocycleproyecto\\ecocycleproject\\ecocyclecore\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|c:\\users\\diana\\desktop\\ecocycleproyecto\\ecocycleproject\\ecocyclecore\\views\\publicaciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\views\\publicaciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -109,10 +113,6 @@
       "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\views\\usuarios\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|c:\\users\\diana\\desktop\\ecocycleproyecto\\ecocycleproject\\ecocyclecore\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|c:\\users\\diana\\desktop\\ecocycleproyecto\\ecocycleproject\\ecocyclecore\\views\\usuarios\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F7939CF8-729B-4F23-AC20-91842F442D7A}|EcoCycleCore\\EcoCycleCore.csproj|solutionrelative:ecocyclecore\\views\\usuarios\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -144,7 +144,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -176,28 +176,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
-              "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
-              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
-              "RelativeToolTip": "EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAiwBAAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-03T15:52:04.201Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
-              "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
-              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
-              "RelativeToolTip": "EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
-              "ViewState": "AgIAAKsAAAAAAAAAAAAIwMkAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-31T00:22:03.731Z",
+              "Title": "UsuariosController.cs",
+              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\UsuariosController.cs",
+              "RelativeDocumentMoniker": "EcoCycleCore\\Controllers\\UsuariosController.cs",
+              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\UsuariosController.cs",
+              "RelativeToolTip": "EcoCycleCore\\Controllers\\UsuariosController.cs",
+              "ViewState": "AgIAAHEAAAAAAAAAAADwv4wAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-31T00:08:42.989Z",
               "EditorCaption": ""
             },
             {
@@ -208,14 +195,40 @@
               "RelativeDocumentMoniker": "EcoCycleCore\\Controllers\\PublicacionesController.cs",
               "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\PublicacionesController.cs",
               "RelativeToolTip": "EcoCycleCore\\Controllers\\PublicacionesController.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAcwFwAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAC0BAAAAAAAAAADwv04BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-03T15:43:20.838Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
+              "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
+              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
+              "RelativeToolTip": "EcoCycleCore\\Views\\Publicaciones\\Create.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAADwvykAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-03T15:52:04.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
+              "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
+              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
+              "RelativeToolTip": "EcoCycleCore\\Views\\Publicaciones\\Index.cshtml",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAswLgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-31T00:22:03.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Program.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Program.cs",
@@ -227,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EcoCycleContext.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\EcoCycleContext.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\EcoCycleContext.cs",
@@ -239,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Controllers\\AuthController.cs",
@@ -251,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "EntregasController.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\EntregasController.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Controllers\\EntregasController.cs",
@@ -264,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Publicacione.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\Publicacione.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\Publicacione.cs",
@@ -276,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "munnrjhv..sql",
               "DocumentMoniker": "C:\\Users\\diana\\AppData\\Local\\Temp\\munnrjhv..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\munnrjhv..sql",
@@ -287,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "vczqn01m..sql",
               "DocumentMoniker": "C:\\Users\\diana\\AppData\\Local\\Temp\\vczqn01m..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\vczqn01m..sql",
@@ -298,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Auth\\Login.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Auth\\Login.cshtml",
@@ -310,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Entregas\\Index.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Entregas\\Index.cshtml",
@@ -322,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\Usuario.cs",
@@ -334,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Entrega.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\Entrega.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\Entrega.cs",
@@ -346,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Materiale.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\Materiale.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\Materiale.cs",
@@ -358,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Canje.cs",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Models\\Canje.cs",
               "RelativeDocumentMoniker": "EcoCycleCore\\Models\\Canje.cs",
@@ -370,7 +383,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Materiales\\Edit.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Materiales\\Edit.cshtml",
@@ -382,7 +395,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Materiales\\Details.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Materiales\\Details.cshtml",
@@ -394,7 +407,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Materiales\\Delete.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Materiales\\Delete.cshtml",
@@ -406,7 +419,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Materiales\\Index.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Materiales\\Index.cshtml",
@@ -418,7 +431,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Materiales\\Create.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Materiales\\Create.cshtml",
@@ -430,7 +443,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Home\\Index.cshtml",
@@ -454,7 +467,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "site.css",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\wwwroot\\css\\site.css",
               "RelativeDocumentMoniker": "EcoCycleCore\\wwwroot\\css\\site.css",
@@ -490,7 +503,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "usuarios.css",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\wwwroot\\css\\usuarios.css",
               "RelativeDocumentMoniker": "EcoCycleCore\\wwwroot\\css\\usuarios.css",
@@ -514,7 +527,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Shared\\_Layout.cshtml",
@@ -526,7 +539,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Usuarios\\Index.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Usuarios\\Index.cshtml",
@@ -539,18 +552,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 27,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "EcoCycleCore\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "EcoCycleCore\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAADwv4wAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-31T00:08:42.989Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
               "Title": "Profile.cshtml",
               "DocumentMoniker": "C:\\Users\\diana\\Desktop\\EcocycleProyecto\\EcocycleProject\\EcoCycleCore\\Views\\Usuarios\\Profile.cshtml",
               "RelativeDocumentMoniker": "EcoCycleCore\\Views\\Usuarios\\Profile.cshtml",
