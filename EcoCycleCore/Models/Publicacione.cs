@@ -42,4 +42,6 @@ public partial class Publicacione
     // NUEVO
     public virtual Usuario? Recolector { get; set; }
     public string? EvidenciaUrl { get; set; }
+    public string? NotaRecolector { get; set; }
+    public bool? EntregaCorrecta { get; set; }
 }

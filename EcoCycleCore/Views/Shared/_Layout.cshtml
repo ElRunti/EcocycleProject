@@ -115,6 +115,22 @@
                                     </a>
 
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark"
+                                       asp-area=""
+                                       asp-controller="Entregas"
+                                       asp-action="Index">
+
+                                        Entregas
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Entregas" asp-action="Pendientes">
+                                        Aprobar entregas
+                                        @* Aquí podrías mostrar un badge con el conteo *@
+                                    </a>
+                                </li>
                             }
 
 
@@ -130,19 +146,11 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                asp-area=""
-                                asp-controller="Entregas"
-                                asp-action="Index">
-
-                                    Entregas
-
-                                </a>
-                            </li>
+                            
 
                         </ul>
                     }
+
                     <!-- LOGIN / USUARIO -->
                     <ul class="navbar-nav">
 

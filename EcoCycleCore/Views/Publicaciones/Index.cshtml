@@ -2,251 +2,187 @@
 
 @{
     ViewData["Title"] = "Publicaciones";
-
-    var rol = Context.Session.GetString("rol");
+    var rol = Context.Session.GetString("rol")?.ToLower();
+    var usuarioId = Context.Session.GetInt32("usuarioId");
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h2 class="fw-bold">Publicaciones</h2>
-        <p class="text-muted mb-0">
-            @if (rol == "Admin")
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Publicaciones</div>
+                <h1>Publicaciones de reciclaje</h1>
+                <p>Material disponible para recolección y su estado actual.</p>
+            </div>
+            @if (rol == "usuario")
             {
-                <span>Administración de publicaciones.</span>
+                <a asp-controller="Publicaciones" asp-action="Create" class="btn-eco-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Nueva publicación
+                </a>
             }
-            else if (rol == "Recolector")
-            {
-                <span>Material disponible para recolección.</span>
-            }
-            else
-            {
-                <span>Mis publicaciones.</span>
-            }
-        </p>
+        </div>
     </div>
-
-    @if (rol == "Usuario")
-    {
-        <a asp-action="Create" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i>
-            Nueva publicación
-        </a>
-    }
 </div>
 
-<div class="row">
+<div class="container-fluid mt-4">
+
     @if (TempData["Ok"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["Ok"]
+        <div class="alert alert-success d-flex gap-2 align-items-center mb-3">
+            <i class="bi bi-check-circle"></i> @TempData["Ok"]
         </div>
     }
-
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger">
-            @TempData["Error"]
+        <div class="alert alert-danger d-flex gap-2 align-items-center mb-3">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
         </div>
     }
 
-    @foreach (var item in Model)
-    {
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <div class="card shadow-sm h-100">
-
-                @if (!string.IsNullOrEmpty(item.UrlImagen))
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Usuario</th>
+                    <th>Peso</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th>Evidencia</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
-                    <img src="@item.UrlImagen"
-                         class="card-img-top"
-                         style="height:220px; object-fit:cover;" />
-                }
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        @item.Material.NombreMaterial
-                    </h5>
-
-                    <p class="card-text">
-                        @item.Descripcion
-                    </p>
-
-                    <hr />
-
-                    <p class="mb-1">
-                        <strong>Peso:</strong>
-                        @item.PesoCantidad kg
-                    </p>
-
-                    <p class="mb-1">
-                        <strong>Ubicación:</strong>
-                        @item.Ubicacion
-                    </p>
-
-                    <p class="mb-1">
-                        <strong>Publicado por:</strong>
-                        @item.Usuario.Nombre
-                    </p>
-
-                    <p class="mb-3">
-                        <strong>Estado:</strong>
-
-                        @switch (item.Estado)
-                        {
-                            case "Pendiente":
-                                <span class="badge bg-warning text-dark">
-                                    Pendiente
-                                </span>
-                                break;
-
-                            case "Solicitada":
-                                <span class="badge bg-info">
-                                    Solicitada
-                                </span>
-                                break;
-
-                            case "Aceptada":
-                                <span class="badge bg-primary">
-                                    Aceptada
-                                </span>
-                                break;
-
-                            case "Entregada":
-                                <span class="badge bg-secondary">
-                                    Entregada
-                                </span>
-                                break;
-
-                            case "Finalizada":
-                                <span class="badge bg-success">
-                                    Finalizada
-                                </span>
-                                break;
-
-                            default:
-                                <span class="badge bg-dark">
-                                    @item.Estado
-                                </span>
-                                break;
-                        }
-
-                    </p>
-
-                </div>
-
-                <div class="card-footer bg-white">
-
-                    @if (rol == "Admin")
-                    {
-                        <a asp-action="Details"
-                           asp-route-id="@item.PublicacionesId"
-                           class="btn btn-outline-primary btn-sm">
-                            Ver
-                        </a>
-
-                        <a asp-action="Edit"
-                           asp-route-id="@item.PublicacionesId"
-                           class="btn btn-outline-warning btn-sm">
-                            Editar
-                        </a>
-
-                        <a asp-action="Delete"
-                           asp-route-id="@item.PublicacionesId"
-                           class="btn btn-outline-danger btn-sm">
-                            Eliminar
-                        </a>
-                    }
-                    else if (rol == "Usuario")
-                    {
-                        <div class="btn-group">
-
-                            <a asp-action="Details"
-                               asp-route-id="@item.PublicacionesId"
-                               class="btn btn-outline-primary btn-sm">
-                                Ver
-                            </a>
-
-                            @if (item.Estado == "Pendiente")
+                    <tr>
+                        <td><strong>@item.Material?.NombreMaterial</strong></td>
+                        <td>@item.Usuario?.Nombre</td>
+                        <td>@item.PesoCantidad kg</td>
+                        <td class="text-muted" style="font-size:.85rem;">@item.Ubicacion</td>
+                        <td>
+                            @{
+                                var badgeClass = item.Estado switch
+                                {
+                                    "Pendiente" => "bg-warning text-dark",
+                                    "Solicitada" => "bg-info text-dark",
+                                    "Aceptada" => "bg-primary text-white",
+                                    "En Revision" => "bg-secondary text-white",
+                                    "Finalizada" => "bg-success text-white",
+                                    _ => "bg-light text-dark"
+                                };
+                            }
+                            <span class="badge @badgeClass">@item.Estado</span>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.EvidenciaUrl))
                             {
-                                <a asp-action="Edit"
-                                   asp-route-id="@item.PublicacionesId"
-                                   class="btn btn-outline-warning btn-sm">
-                                    Editar
-                                </a>
-
-                                <a asp-action="Delete"
-                                   asp-route-id="@item.PublicacionesId"
-                                   class="btn btn-outline-danger btn-sm">
-                                    Eliminar
+                                <a href="@item.EvidenciaUrl" target="_blank">
+                                    <img src="@item.EvidenciaUrl" alt="Evidencia"
+                                         style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--eco-line);" />
                                 </a>
                             }
+                            else
+                            {
+                                <span class="text-muted" style="font-size:.8rem;">Sin evidencia</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex gap-1 justify-content-end flex-wrap">
 
-                        </div>
+                                @* RECOLECTOR: tomar publicación pendiente *@
+                                @if (rol == "recolector" && item.Estado == "Pendiente" && item.RecolectorId == null)
+                                {
+                                    <form asp-action="SolicitarRecoleccion" asp-route-id="@item.PublicacionesId" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-hand-index me-1"></i> Tomar
+                                        </button>
+                                    </form>
+                                }
 
-                        @if (item.Estado == "Solicitada")
-                        {
-                            <div class="mt-2">
-                                <small class="text-muted d-block mb-2">
-                                    Un recolector desea recoger este material.
-                                </small>
+                                @* RECOLECTOR: cancelar solicitud propia *@
+                                @if (rol == "recolector" && item.Estado == "Solicitada" && item.RecolectorId == usuarioId)
+                                {
+                                    <form asp-action="CancelarSolicitud" asp-route-id="@item.PublicacionesId" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-x-circle me-1"></i> Cancelar
+                                        </button>
+                                    </form>
+                                }
 
-                                <form asp-action="AceptarSolicitud"
-                                      asp-route-id="@item.PublicacionesId"
-                                      method="post"
-                                      class="d-inline">
+                                @* RECOLECTOR: subir evidencia cuando fue aceptado *@
+                                @if (rol == "recolector" && item.Estado == "Aceptada" && item.RecolectorId == usuarioId)
+                                {
+                                    <a asp-action="SubirEvidencia" asp-route-id="@item.PublicacionesId" class="btn btn-sm btn-success">
+                                        <i class="bi bi-camera me-1"></i> Subir evidencia
+                                    </a>
+                                }
 
-                                    @Html.AntiForgeryToken()
+                                @* USUARIO: aceptar o rechazar solicitud del recolector *@
+                                @if (rol == "usuario" && item.Estado == "Solicitada" && item.UsuarioId == usuarioId)
+                                {
+                                    <form asp-action="AceptarSolicitud" asp-route-id="@item.PublicacionesId" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-success">
+                                            <i class="bi bi-check-circle me-1"></i> Aceptar
+                                        </button>
+                                    </form>
+                                    <form asp-action="RechazarSolicitud" asp-route-id="@item.PublicacionesId" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-x-circle me-1"></i> Rechazar
+                                        </button>
+                                    </form>
+                                }
 
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Aceptar
-                                    </button>
+                                @* ADMIN: aprobar o rechazar evidencia *@
+                                @if (rol == "admin" && item.Estado == "En Revision")
+                                {
+                                    <form asp-action="AprobarEntregaAdmin" asp-route-id="@item.PublicacionesId" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="number" name="puntosOtorgados" class="form-control form-control-sm d-inline"
+                                               style="width:80px;" placeholder="Pts" min="1" required />
+                                        <button type="submit" class="btn btn-sm btn-success ms-1">
+                                            <i class="bi bi-check-circle me-1"></i> Aprobar
+                                        </button>
+                                    </form>
+                                    <form asp-action="RechazarEvidencia" asp-route-id="@item.PublicacionesId" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger ms-1">
+                                            <i class="bi bi-x-circle me-1"></i> Rechazar
+                                        </button>
+                                    </form>
+                                }
 
-                                </form>
+                                @* Detalles siempre visibles *@
+                                <a asp-controller="Publicaciones" asp-action="Details"
+                                   asp-route-id="@item.PublicacionesId" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
 
-                                <form asp-action="RechazarSolicitud"
-                                      asp-route-id="@item.PublicacionesId"
-                                      method="post"
-                                      class="d-inline">
-
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        Rechazar
-                                    </button>
-
-                                </form>
+                                @* Admin puede eliminar *@
+                                @if (rol == "admin")
+                                {
+                                    <a asp-controller="Publicaciones" asp-action="Delete"
+                                       asp-route-id="@item.PublicacionesId" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                }
                             </div>
-                        }
-                    }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-                    else if (rol == "Recolector")
-                    {
-                        <form asp-action="SolicitarRecoleccion"
-                              asp-route-id="@item.PublicacionesId"
-                              method="post">
-
-                            @Html.AntiForgeryToken()
-
-                            <button type="submit" class="btn btn-success btn-sm">
-                                Quiero recoger
-                            </button>
-
-                        </form>
-                    }
-
-                </div>
-
-            </div>
-
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-megaphone"></i>
+            <p class="mt-2 mb-0">No hay publicaciones disponibles.</p>
         </div>
     }
-
 </div>
-
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        No hay publicaciones disponibles.
-    </div>
-}

@@ -1,0 +1,162 @@
+﻿@model EcoCycleCore.Models.Publicacione
+
+@{
+    ViewData["Title"] = "Subir evidencia de entrega";
+}
+
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Recolección</div>
+        <h1>Subir evidencia de entrega</h1>
+        <p>Adjunta la foto y describe cómo fue la entrega.</p>
+    </div>
+</div>
+
+<div class="container-fluid mt-4" style="max-width: 760px;">
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger d-flex gap-2 align-items-center">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        </div>
+    }
+
+    <!-- Resumen de la publicación -->
+    <div class="eco-detail-card mb-4">
+        <div class="eco-crud-eyebrow mb-2">Publicación</div>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Usuario</dt>
+            <dd class="col-sm-8">@Model.Usuario?.Nombre</dd>
+
+            <dt class="col-sm-4">Material</dt>
+            <dd class="col-sm-8">@Model.Material?.NombreMaterial</dd>
+
+            <dt class="col-sm-4">Peso declarado</dt>
+            <dd class="col-sm-8">@Model.PesoCantidad kg</dd>
+
+            <dt class="col-sm-4">Puntos estimados</dt>
+            <dd class="col-sm-8">
+                <span class="puntos-badge">
+                    <i class="bi bi-star-fill"></i>
+                    @((Model.Material?.PuntosPorKilo ?? 0) * Model.PesoCantidad) pts
+                    <small class="ms-1 fw-normal text-muted">(@Model.Material?.PuntosPorKilo pts/kg × @Model.PesoCantidad kg)</small>
+                </span>
+            </dd>
+
+            <dt class="col-sm-4">Ubicación</dt>
+            <dd class="col-sm-8">@Model.Ubicacion</dd>
+        </dl>
+    </div>
+
+    <!-- Formulario de evidencia -->
+    <div class="eco-form-card">
+        <form asp-action="SubirEvidencia" asp-controller="Publicaciones"
+              asp-route-id="@Model.PublicacionesId" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- URL evidencia -->
+            <div class="mb-3">
+                <label class="form-label">URL de la foto de evidencia</label>
+                <input type="url" name="evidenciaUrl" class="form-control"
+                       placeholder="https://ejemplo.com/foto-entrega.jpg" required />
+                <div class="form-text">
+                    Sube la foto a <a href="https://imgur.com" target="_blank">Imgur</a> o
+                    <a href="https://postimages.org" target="_blank">PostImages</a> y pega el enlace directo.
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div id="img-preview-wrap" class="mb-3 d-none">
+                <label class="form-label">Vista previa</label>
+                <img id="img-preview" src="" alt="Previsualización"
+                     class="img-fluid rounded-3"
+                     style="max-height:240px;border:1px solid var(--eco-line);" />
+            </div>
+
+            <!-- Checkbox entrega correcta / problema -->
+            <div class="mb-3">
+                <label class="form-label">Estado de la entrega</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="entregaCorrecta"
+                               id="opcionCorrecta" value="true" checked />
+                        <label class="form-check-label text-success fw-semibold" for="opcionCorrecta">
+                            <i class="bi bi-check-circle me-1"></i> Entrega correcta
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="entregaCorrecta"
+                               id="opcionProblema" value="false" />
+                        <label class="form-check-label text-danger fw-semibold" for="opcionProblema">
+                            <i class="bi bi-exclamation-circle me-1"></i> Hubo un problema
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota del recolector -->
+            <div class="mb-3">
+                <label class="form-label" id="label-nota">
+                    Nota <span class="text-muted fw-normal">(opcional)</span>
+                </label>
+                <textarea name="notaRecolector" id="notaRecolector" class="form-control" rows="3"
+                          placeholder="Agrega cualquier observación sobre la entrega..."></textarea>
+                <div class="form-text" id="hint-nota">Puedes dejar observaciones generales.</div>
+            </div>
+
+            <div class="alert alert-warning d-flex gap-2 align-items-start">
+                <i class="bi bi-info-circle fs-5"></i>
+                <div>
+                    <strong>Importante:</strong> el administrador revisará la evidencia antes de
+                    liberar los puntos. Si hubo un problema, el admin ajustará los puntos manualmente.
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn-eco-primary">
+                    <i class="bi bi-send me-1"></i> Enviar evidencia
+                </button>
+                <a asp-controller="Publicaciones" asp-action="Index" class="btn-eco-ghost-light">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Preview de imagen
+        const urlInput = document.querySelector('input[name="evidenciaUrl"]');
+        const wrap = document.getElementById('img-preview-wrap');
+        const img = document.getElementById('img-preview');
+        urlInput?.addEventListener('input', () => {
+            const val = urlInput.value.trim();
+            if (val.startsWith('http')) {
+                img.src = val;
+                img.onload = () => wrap.classList.remove('d-none');
+                img.onerror = () => wrap.classList.add('d-none');
+            } else {
+                wrap.classList.add('d-none');
+            }
+        });
+
+        // Si hay problema, la nota es obligatoria
+        const radios = document.querySelectorAll('input[name="entregaCorrecta"]');
+        const nota = document.getElementById('notaRecolector');
+        const labelNota = document.getElementById('label-nota');
+        const hintNota = document.getElementById('hint-nota');
+
+        radios.forEach(r => r.addEventListener('change', () => {
+            const esProblema = document.getElementById('opcionProblema').checked;
+            nota.required = esProblema;
+            nota.placeholder = esProblema
+                ? 'Describe el problema detalladamente (obligatorio)...'
+                : 'Agrega cualquier observación sobre la entrega...';
+            labelNota.innerHTML = esProblema
+                ? 'Nota <span class="text-danger fw-semibold">* (obligatorio si hubo problema)</span>'
+                : 'Nota <span class="text-muted fw-normal">(opcional)</span>';
+            hintNota.textContent = esProblema
+                ? 'El administrador verá esta nota para decidir cuántos puntos otorgar.'
+                : 'Puedes dejar observaciones generales.';
+        }));
+    </script>
+}

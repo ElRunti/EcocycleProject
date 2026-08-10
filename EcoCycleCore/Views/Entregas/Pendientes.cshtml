@@ -1,0 +1,177 @@
+﻿@model IEnumerable<EcoCycleCore.Models.Publicacione>
+
+@{
+    ViewData["Title"] = "Entregas pendientes de aprobación";
+}
+
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Módulo de Entregas</div>
+                <h1>Entregas pendientes</h1>
+                <p>Revisa la evidencia y aprueba o rechaza cada entrega.</p>
+            </div>
+            <a asp-controller="Entregas" asp-action="Index" class="btn-eco-ghost-light">
+                <i class="bi bi-list me-1"></i> Ver historial
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+
+    @if (TempData["Ok"] != null)
+    {
+        <div class="alert alert-success d-flex gap-2 mb-3">
+            <i class="bi bi-check-circle"></i> @TempData["Ok"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger d-flex gap-2 mb-3">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-clipboard-check"></i>
+            <p class="mt-2 mb-0">No hay entregas pendientes de revisión.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                bool hayProblema = item.EntregaCorrecta == false;
+                int puntosAuto = (int)(item.PesoCantidad * (item.Material?.PuntosPorKilo ?? 0));
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="card border-0 shadow-sm h-100" style="border-radius:16px;overflow:hidden;">
+
+                        <!-- Cabecera con estado -->
+                        <div class="card-header d-flex justify-content-between align-items-center"
+                             style="background:@(hayProblema ? "#FFF3CD" : "var(--eco-sage)");">
+                            <span style="font-weight:700;color:@(hayProblema ? "#856404" : "var(--eco-forest)");">
+                                <i class="bi bi-@(hayProblema ? "exclamation-triangle" : "check-circle") me-1"></i>
+                                @(hayProblema ? "Hubo un problema" : "Entrega correcta")
+                            </span>
+                            <small class="text-muted">#@item.PublicacionesId</small>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Info básica -->
+                            <dl class="row mb-3" style="font-size:.9rem;">
+                                <dt class="col-5 text-muted">Usuario</dt>
+                                <dd class="col-7">@item.Usuario?.Nombre</dd>
+
+                                <dt class="col-5 text-muted">Recolector</dt>
+                                <dd class="col-7">@item.Recolector?.Nombre</dd>
+
+                                <dt class="col-5 text-muted">Material</dt>
+                                <dd class="col-7">@item.Material?.NombreMaterial</dd>
+
+                                <dt class="col-5 text-muted">Peso</dt>
+                                <dd class="col-7">@item.PesoCantidad kg</dd>
+
+                                <dt class="col-5 text-muted">Pts/kg</dt>
+                                <dd class="col-7">@item.Material?.PuntosPorKilo pts</dd>
+
+                                <dt class="col-5 text-muted">Puntos auto</dt>
+                                <dd class="col-7">
+                                    <span class="puntos-badge">
+                                        <i class="bi bi-star-fill"></i> @puntosAuto pts
+                                    </span>
+                                </dd>
+                            </dl>
+
+                            <!-- Nota del recolector -->
+                            @if (!string.IsNullOrEmpty(item.NotaRecolector))
+                            {
+                                <div class="p-2 rounded-3 mb-3"
+                                     style="background:@(hayProblema ? "#FFF3CD" : "var(--eco-sage)");font-size:.88rem;">
+                                    <strong><i class="bi bi-chat-left-text me-1"></i>Nota del recolector:</strong>
+                                    <p class="mb-0 mt-1">@item.NotaRecolector</p>
+                                </div>
+                            }
+
+                            <!-- Evidencia -->
+                            @if (!string.IsNullOrEmpty(item.EvidenciaUrl))
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label text-muted" style="font-size:.8rem;">EVIDENCIA</label>
+                                    <a href="@item.EvidenciaUrl" target="_blank">
+                                        <img src="@item.EvidenciaUrl" alt="Evidencia"
+                                             class="img-fluid rounded-3 w-100"
+                                             style="max-height:180px;object-fit:cover;border:1px solid var(--eco-line);" />
+                                    </a>
+                                </div>
+                            }
+
+                            <!-- Acciones -->
+                            <div class="border-top pt-3 mt-2">
+                                @if (!hayProblema)
+                                {
+                                    <!-- Entrega correcta: puntos automáticos, solo aprobar o rechazar -->
+                                    <p class="text-muted mb-2" style="font-size:.85rem;">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Se otorgarán <strong>@puntosAuto pts</strong> automáticamente.
+                                    </p>
+                                    <div class="d-flex gap-2">
+                                        <form asp-controller="Entregas" asp-action="AprobarEntrega" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="publicacionId" value="@item.PublicacionesId" />
+                                            <button type="submit" class="btn btn-success btn-sm fw-semibold">
+                                                <i class="bi bi-check-circle me-1"></i> Aprobar (@puntosAuto pts)
+                                            </button>
+                                        </form>
+                                        <form asp-controller="Entregas" asp-action="RechazarEvidencia" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="publicacionId" value="@item.PublicacionesId" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-x-circle me-1"></i> Rechazar
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!-- Hubo problema: admin ajusta puntos manualmente -->
+                                    <p class="text-warning mb-2" style="font-size:.85rem;">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        El recolector reportó un problema. Ajusta los puntos manualmente.
+                                    </p>
+                                    <form asp-controller="Entregas" asp-action="AprobarEntrega" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="publicacionId" value="@item.PublicacionesId" />
+                                        <div class="input-group input-group-sm mb-2">
+                                            <span class="input-group-text" style="background:var(--eco-sage);">
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            </span>
+                                            <input type="number" name="puntosAjustados" class="form-control"
+                                                   placeholder="Pts a otorgar" min="0"
+                                                   max="@puntosAuto" value="@puntosAuto" required />
+                                            <span class="input-group-text" style="background:var(--eco-sage);font-size:.8rem;">pts</span>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-warning btn-sm fw-semibold text-dark">
+                                                <i class="bi bi-check-circle me-1"></i> Aprobar con ajuste
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                                    onclick="this.closest('form').action='@Url.Action("RechazarEvidencia", "Entregas")'">
+                                                <i class="bi bi-x-circle me-1"></i> Rechazar
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -18,6 +18,10 @@ namespace EcoCycleCore.Controllers
             _context = context;
         }
 
+        // ==========================================
+        // LISTADO PRINCIPAL (INDEX)
+        // ==========================================
+
         // GET: Publicaciones
         public async Task<IActionResult> Index()
         {
@@ -35,7 +39,7 @@ namespace EcoCycleCore.Controllers
                 .Include(p => p.Recolector)
                 .AsQueryable();
 
-            // ADMIN (acepta "admin" o "Admin")
+            // ADMIN
             if (rol == "admin")
             {
                 return View(await publicaciones.ToListAsync());
@@ -61,30 +65,71 @@ namespace EcoCycleCore.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
-        // POST: Recolector marca como entregado para revisión del Admin
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MarcarEntregada(int id)
+        // ==========================================
+        // GESTIÓN DE EVIDENCIAS Y REVISIÓN ADMIN
+        // ==========================================
+
+        // GET: Recolector abre formulario para subir evidencia
+        [HttpGet]
+        public async Task<IActionResult> SubirEvidencia(int id)
         {
             string? rol = HttpContext.Session.GetString("rol")?.ToLower();
             int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
 
-            if (rol != "recolector" || recolectorId == null) return Unauthorized();
+            if (rol != "recolector" || recolectorId == null)
+                return RedirectToAction("Login", "Auth");
+
+            var publicacion = await _context.Publicaciones
+                .Include(p => p.Material)
+                .Include(p => p.Usuario)
+                .FirstOrDefaultAsync(p => p.PublicacionesId == id);
+
+            if (publicacion == null) return NotFound();
+            if (publicacion.RecolectorId != recolectorId.Value) return Unauthorized();
+
+            return View(publicacion);
+        }
+
+        // POST: Recolector envía evidencia y marca como "En Revision"
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubirEvidencia(int id, string evidenciaUrl,
+    bool entregaCorrecta, string? notaRecolector)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (rol != "recolector" || recolectorId == null)
+                return RedirectToAction("Login", "Auth");
 
             var publicacion = await _context.Publicaciones.FindAsync(id);
             if (publicacion == null) return NotFound();
-
             if (publicacion.RecolectorId != recolectorId.Value) return Unauthorized();
 
-            // Cambiamos el estado a "En Revision" para que pase al panel de Entregas del Admin
+            if (string.IsNullOrWhiteSpace(evidenciaUrl))
+            {
+                TempData["Error"] = "Debes ingresar una URL de evidencia.";
+                return RedirectToAction(nameof(SubirEvidencia), new { id });
+            }
+
+            if (!entregaCorrecta && string.IsNullOrWhiteSpace(notaRecolector))
+            {
+                TempData["Error"] = "Debes describir el problema en la nota.";
+                return RedirectToAction(nameof(SubirEvidencia), new { id });
+            }
+
+            publicacion.EvidenciaUrl = evidenciaUrl;
+            publicacion.EntregaCorrecta = entregaCorrecta;
+            publicacion.NotaRecolector = notaRecolector;
             publicacion.Estado = "En Revision";
+
             await _context.SaveChangesAsync();
 
-            TempData["Ok"] = "Entregada correctamente. Queda pendiente de aprobación de puntos por el administrador.";
+            TempData["Ok"] = "Evidencia enviada correctamente. El administrador la revisará pronto.";
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Admin aprueba la entrega y deposita puntos al usuario
+        // POST: Admin aprueba la entrega y deposita puntos
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AprobarEntregaAdmin(int id, int puntosOtorgados)
@@ -98,20 +143,151 @@ namespace EcoCycleCore.Controllers
 
             if (publicacion == null) return NotFound();
 
-            // 1. Cambiar estado a Finalizada
             publicacion.Estado = "Finalizada";
 
-            // 2. Sumar puntos al Usuario dueño de la publicación
             if (publicacion.Usuario != null)
             {
-                publicacion.Usuario.PuntosAcumulacion = (publicacion.Usuario.PuntosAcumulacion ?? 0) + puntosOtorgados;
+                publicacion.Usuario.PuntosAcumulacion =
+                    (publicacion.Usuario.PuntosAcumulacion ?? 0) + puntosOtorgados;
             }
 
             await _context.SaveChangesAsync();
 
-            TempData["Ok"] = $"Entrega aprobada exitosamente. Se depositaron {puntosOtorgados} puntos al usuario.";
+            TempData["Ok"] = $"Entrega aprobada. Se depositaron {puntosOtorgados} puntos al usuario.";
             return RedirectToAction(nameof(Index));
         }
+
+        // POST: Admin rechaza la evidencia y regresa a Aceptada
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RechazarEvidencia(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            if (rol != "admin") return Unauthorized();
+
+            var publicacion = await _context.Publicaciones.FindAsync(id);
+            if (publicacion == null) return NotFound();
+
+            publicacion.Estado = "Aceptada";
+            publicacion.EvidenciaUrl = null;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Error"] = "Evidencia rechazada. El recolector deberá subir nueva evidencia.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ==========================================
+        // FLUJO DE SOLICITUDES Y RECOLECCIÓN
+        // ==========================================
+
+        // POST: Recolector solicita tomar una publicación
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SolicitarRecoleccion(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (rol != "recolector" || recolectorId == null) return Unauthorized();
+
+            var publicacion = await _context.Publicaciones.FindAsync(id);
+            if (publicacion == null) return NotFound();
+
+            if (publicacion.RecolectorId != null)
+            {
+                TempData["Error"] = "Esta publicación ya fue tomada por otro recolector.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            publicacion.RecolectorId = recolectorId;
+            publicacion.Estado = "Solicitada";
+
+            await _context.SaveChangesAsync();
+            TempData["Ok"] = "Has solicitado esta recolección.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Usuario acepta al recolector que solicitó la recolección
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AceptarSolicitud(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            int? usuarioId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (rol != "usuario" || usuarioId == null) return Unauthorized();
+
+            var publicacion = await _context.Publicaciones.FindAsync(id);
+            if (publicacion == null) return NotFound();
+
+            if (publicacion.UsuarioId != usuarioId.Value) return Unauthorized();
+
+            if (publicacion.RecolectorId == null)
+            {
+                TempData["Error"] = "La publicación no tiene un recolector asignado.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            publicacion.Estado = "Aceptada";
+            await _context.SaveChangesAsync();
+
+            TempData["Ok"] = "Has aceptado al recolector.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Usuario rechaza la solicitud del recolector
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RechazarSolicitud(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            int? usuarioId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (rol != "usuario" || usuarioId == null) return Unauthorized();
+
+            var publicacion = await _context.Publicaciones.FindAsync(id);
+            if (publicacion == null) return NotFound();
+
+            if (publicacion.UsuarioId != usuarioId.Value) return Unauthorized();
+
+            publicacion.RecolectorId = null;
+            publicacion.Estado = "Pendiente";
+
+            await _context.SaveChangesAsync();
+            TempData["Ok"] = "Solicitud rechazada.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Recolector cancela su solicitud de recolección
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelarSolicitud(int id)
+        {
+            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
+
+            if (rol != "recolector" || recolectorId == null) return Unauthorized();
+
+            var publicacion = await _context.Publicaciones.FindAsync(id);
+            if (publicacion == null) return NotFound();
+
+            if (publicacion.RecolectorId == recolectorId.Value && publicacion.Estado == "Solicitada")
+            {
+                publicacion.RecolectorId = null;
+                publicacion.Estado = "Pendiente";
+                await _context.SaveChangesAsync();
+                TempData["Ok"] = "Has cancelado tu solicitud de recolección.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ==========================================
+        // CRUD BÁSICO (DETAILS, CREATE, EDIT, DELETE)
+        // ==========================================
 
         // GET: Publicaciones/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -252,105 +428,9 @@ namespace EcoCycleCore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SolicitarRecoleccion(int id)
-        {
-            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
-            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
-
-            if (rol != "recolector" || recolectorId == null) return Unauthorized();
-
-            var publicacion = await _context.Publicaciones.FindAsync(id);
-            if (publicacion == null) return NotFound();
-
-            if (publicacion.RecolectorId != null)
-            {
-                TempData["Error"] = "Esta publicación ya fue tomada por otro recolector.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            publicacion.RecolectorId = recolectorId;
-            publicacion.Estado = "Solicitada";
-
-            await _context.SaveChangesAsync();
-            TempData["Ok"] = "Has solicitado esta recolección.";
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AceptarSolicitud(int id)
-        {
-            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
-            int? usuarioId = HttpContext.Session.GetInt32("usuarioId");
-
-            if (rol != "usuario" || usuarioId == null) return Unauthorized();
-
-            var publicacion = await _context.Publicaciones.FindAsync(id);
-            if (publicacion == null) return NotFound();
-
-            if (publicacion.UsuarioId != usuarioId.Value) return Unauthorized();
-
-            if (publicacion.RecolectorId == null)
-            {
-                TempData["Error"] = "La publicación no tiene un recolector asignado.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            publicacion.Estado = "Aceptada";
-            await _context.SaveChangesAsync();
-
-            TempData["Ok"] = "Has aceptado al recolector.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RechazarSolicitud(int id)
-        {
-            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
-            int? usuarioId = HttpContext.Session.GetInt32("usuarioId");
-
-            if (rol != "usuario" || usuarioId == null) return Unauthorized();
-
-            var publicacion = await _context.Publicaciones.FindAsync(id);
-            if (publicacion == null) return NotFound();
-
-            if (publicacion.UsuarioId != usuarioId.Value) return Unauthorized();
-
-            publicacion.RecolectorId = null;
-            publicacion.Estado = "Pendiente";
-
-            await _context.SaveChangesAsync();
-            TempData["Ok"] = "Solicitud rechazada.";
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelarSolicitud(int id)
-        {
-            string? rol = HttpContext.Session.GetString("rol")?.ToLower();
-            int? recolectorId = HttpContext.Session.GetInt32("usuarioId");
-
-            if (rol != "recolector" || recolectorId == null) return Unauthorized();
-
-            var publicacion = await _context.Publicaciones.FindAsync(id);
-            if (publicacion == null) return NotFound();
-
-            if (publicacion.RecolectorId == recolectorId.Value && publicacion.Estado == "Solicitada")
-            {
-                publicacion.RecolectorId = null;
-                publicacion.Estado = "Pendiente";
-                await _context.SaveChangesAsync();
-                TempData["Ok"] = "Has cancelado tu solicitud de recolección.";
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
+        // ==========================================
+        // MÉTODOS PRIVADOS AUXILIARES
+        // ==========================================
 
         private bool PublicacioneExists(int id)
         {

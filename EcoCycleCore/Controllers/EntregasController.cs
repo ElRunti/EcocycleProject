@@ -190,4 +190,101 @@ public class EntregasController : Controller
     {
         return _context.Entregas.Any(e => e.EntregaId == entregaid);
     }
+    // GET: Entregas/Pendientes — admin ve las que están En Revision
+    public async Task<IActionResult> Pendientes()
+    {
+        string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+        if (rol != "admin") return RedirectToAction("Login", "Auth");
+
+        var pendientes = await _context.Publicaciones
+            .Include(p => p.Material)
+            .Include(p => p.Usuario)
+            .Include(p => p.Recolector)
+            .Where(p => p.Estado == "En Revision")
+            .ToListAsync();
+
+        return View(pendientes);
+    }
+
+    // POST: Admin aprueba desde el módulo Entregas
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AprobarEntrega(int publicacionId, int? puntosAjustados)
+    {
+        string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+        if (rol != "admin") return Unauthorized();
+
+        var publicacion = await _context.Publicaciones
+            .Include(p => p.Material)
+            .Include(p => p.Usuario)
+            .FirstOrDefaultAsync(p => p.PublicacionesId == publicacionId);
+
+        if (publicacion == null) return NotFound();
+
+        // Calcular puntos automáticamente
+        int puntosFinales;
+
+        if (publicacion.EntregaCorrecta == true)
+        {
+            // Entrega sin problemas: cálculo automático
+            puntosFinales = (int)(publicacion.PesoCantidad * (publicacion.Material?.PuntosPorKilo ?? 0));
+        }
+        else
+        {
+            // Hubo problema: admin ajusta manualmente
+            if (puntosAjustados == null || puntosAjustados < 0)
+            {
+                TempData["Error"] = "Debes ingresar los puntos a otorgar manualmente.";
+                return RedirectToAction(nameof(Pendientes));
+            }
+            puntosFinales = puntosAjustados.Value;
+        }
+
+        // Crear la entrega
+        var entrega = new Entrega
+        {
+            PublicacionId = publicacion.PublicacionesId,
+            CiudadanoId = publicacion.UsuarioId,
+            CentroId = 1, // ajusta según tu lógica de centro
+            PesoReal = publicacion.PesoCantidad,
+            PuntosOtorgados = puntosFinales,
+            FechaEntrega = DateTime.Now
+        };
+
+        _context.Entregas.Add(entrega);
+
+        // Sumar puntos al usuario
+        if (publicacion.Usuario != null)
+            publicacion.Usuario.PuntosAcumulacion =
+                (publicacion.Usuario.PuntosAcumulacion ?? 0) + puntosFinales;
+
+        publicacion.Estado = "Finalizada";
+
+        await _context.SaveChangesAsync();
+
+        TempData["Ok"] = $"Entrega aprobada. Se otorgaron {puntosFinales} puntos al usuario {publicacion.Usuario?.Nombre}.";
+        return RedirectToAction(nameof(Pendientes));
+    }
+
+    // POST: Admin rechaza evidencia
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RechazarEvidencia(int publicacionId)
+    {
+        string? rol = HttpContext.Session.GetString("rol")?.ToLower();
+        if (rol != "admin") return Unauthorized();
+
+        var publicacion = await _context.Publicaciones.FindAsync(publicacionId);
+        if (publicacion == null) return NotFound();
+
+        publicacion.Estado = "Aceptada";
+        publicacion.EvidenciaUrl = null;
+        publicacion.NotaRecolector = null;
+        publicacion.EntregaCorrecta = null;
+
+        await _context.SaveChangesAsync();
+
+        TempData["Error"] = "Evidencia rechazada. El recolector deberá subir nueva evidencia.";
+        return RedirectToAction(nameof(Pendientes));
+    }
 }
