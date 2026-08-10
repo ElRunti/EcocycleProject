@@ -1,0 +1,172 @@
+﻿@model IEnumerable<EcoCycleCore.Models.Cupone>
+
+@{
+    ViewData["Title"] = "Recompensas";
+    var rol = Context.Session.GetString("rol")?.ToLower();
+    var misPuntos = (int)(ViewBag.MisPuntos ?? 0);
+    var estaLogueado = Context.Session.GetString("usuario") != null;
+}
+
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Tienda de puntos</div>
+                <h1>Recompensas</h1>
+                <p>Canjea tus puntos por tarjetas de regalo y beneficios en tiendas aliadas.</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                @if (estaLogueado)
+                {
+                    <div class="puntos-badge fs-6 px-3 py-2">
+                        <i class="bi bi-star-fill"></i>
+                        <strong>@misPuntos pts</strong> disponibles
+                    </div>
+                }
+                @if (rol == "admin")
+                {
+                    <a asp-controller="Cupones" asp-action="Create" class="btn-eco-primary">
+                        <i class="bi bi-plus-circle me-1"></i> Nuevo cupón
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+
+    @if (TempData["Ok"] != null)
+    {
+        <div class="alert alert-success d-flex gap-2 mb-4">
+            <i class="bi bi-check-circle fs-5"></i> @TempData["Ok"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger d-flex gap-2 mb-4">
+            <i class="bi bi-exclamation-triangle fs-5"></i> @TempData["Error"]
+        </div>
+    }
+
+    @if (!estaLogueado)
+    {
+        <div class="alert d-flex gap-2 align-items-center mb-4"
+             style="background:var(--eco-sage);border:none;border-radius:12px;">
+            <i class="bi bi-info-circle fs-5" style="color:var(--eco-leaf);"></i>
+            <span>
+                <a asp-controller="Auth" asp-action="Login" style="color:var(--eco-forest);font-weight:700;">Inicia sesión</a>
+                para ver cuántos puntos tienes y poder canjear recompensas.
+            </span>
+        </div>
+    }
+
+    <div class="row g-4">
+    @foreach (var item in Model)
+    {
+        bool puedeCanjearlo = estaLogueado && misPuntos >= item.CostPuntos && item.Stock > 0;
+        bool sinStock = item.Stock <= 0;
+
+        <div class="col-sm-6 col-lg-4 col-xl-3">
+            <div class="cupon-card @(sinStock ? "cupon-agotado" : "")">
+
+                <!-- Icono / badge de tienda -->
+                <div class="cupon-store-badge">
+                    <i class="bi bi-gift"></i>
+                </div>
+
+                <div class="cupon-store">@item.TiendaNombre</div>
+                <h5 class="cupon-title">@item.DescBeneficio</h5>
+
+                <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                    <span class="puntos-badge">
+                        <i class="bi bi-star-fill"></i> @item.CostPuntos pts
+                    </span>
+                    <span class="cupon-stock @(sinStock ? "text-danger" : "")">
+                        @if (sinStock)
+                        {
+                            <i class="bi bi-x-circle me-1"></i> <text>Agotado</text>
+                        }
+                        else
+                        {
+                            <i class="bi bi-layers me-1"></i> <text>@item.Stock disponibles</text>
+                        }
+                    </span>
+                </div>
+
+                @if (estaLogueado && !sinStock)
+                {
+                    <div class="cupon-progress-wrap mb-3">
+                        @{
+                            var pct = Math.Min(100, (int)((double)misPuntos / item.CostPuntos * 100));
+                        }
+                        <div class="cupon-progress-bar" style="width:@pct%"></div>
+                        @if (!puedeCanjearlo)
+                        {
+                            <small class="text-muted d-block mt-1">
+                                Te faltan <strong>@(item.CostPuntos - misPuntos) pts</strong>
+                            </small>
+                        }
+                    </div>
+                }
+
+                @if (sinStock)
+                {
+                    <button class="cupon-btn cupon-btn-disabled" disabled>
+                        <i class="bi bi-x-circle me-1"></i> Sin stock
+                    </button>
+                }
+                else if (!estaLogueado)
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="cupon-btn cupon-btn-ghost">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Inicia sesión para canjear
+                    </a>
+                }
+                else if (puedeCanjearlo)
+                {
+                    <form asp-controller="Cupones" asp-action="Canjear" asp-route-id="@item.CuponId" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="cupon-btn cupon-btn-primary">
+                            <i class="bi bi-lightning-charge me-1"></i> Canjear ahora
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button class="cupon-btn cupon-btn-disabled" disabled>
+                        <i class="bi bi-lock me-1"></i> Puntos insuficientes
+                    </button>
+                }
+
+                @if (rol == "admin")
+                {
+                    <div class="cupon-admin-actions">
+                        <a asp-controller="Cupones" asp-action="Edit" asp-route-id="@item.CuponId"
+                           class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a asp-controller="Cupones" asp-action="Delete" asp-route-id="@item.CuponId"
+                           class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-gift"></i>
+            <p class="mt-2 mb-0">No hay recompensas disponibles por el momento.</p>
+            @if (rol == "admin")
+            {
+                <a asp-controller="Cupones" asp-action="Create" class="btn-eco-primary mt-3">
+                    <i class="bi bi-plus-circle me-1"></i> Agregar primera recompensa
+                </a>
+            }
+        </div>
+    }
+</div>

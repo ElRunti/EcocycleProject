@@ -87,6 +87,7 @@
 
                                 </a>
                             </li>
+
                             @if (rol == "admin")
                             {
                                 <li class="nav-item">
@@ -145,6 +146,27 @@
 
                                 </a>
                             </li>
+
+                           
+                            @if (rol == "admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Cupones" asp-action="Index">Cupones</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Canjes" asp-action="Index">Historial canjes</a>
+                                </li>
+                            }
+
+                            @if(rol == "Usuario")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Cupones" asp-action="Index">Recompensas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Canjes" asp-action="MisCanjes">Mis canjes</a>
+                                </li>
+                            }
 
                             
 

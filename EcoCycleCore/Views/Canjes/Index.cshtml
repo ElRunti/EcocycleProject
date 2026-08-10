@@ -1,0 +1,62 @@
+﻿@model IEnumerable<EcoCycleCore.Models.Canje>
+
+@{
+    ViewData["Title"] = "Historial de canjes";
+}
+
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Administración</div>
+        <h1>Historial de canjes</h1>
+        <p>Todos los canjes realizados por los usuarios.</p>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Tienda</th>
+                    <th>Beneficio</th>
+                    <th>Puntos usados</th>
+                    <th>Código</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="td-nombre">
+                                <span class="usuario-avatar">
+                                    @item.Usuario?.Nombre.Substring(0, 1).ToUpper()
+                                </span>
+                                @item.Usuario?.Nombre
+                            </div>
+                        </td>
+                        <td>@item.Cupon?.TiendaNombre</td>
+                        <td>@item.Cupon?.DescBeneficio</td>
+                        <td>
+                            <span class="puntos-badge">
+                                <i class="bi bi-star-fill"></i> @item.Cupon?.CostPuntos pts
+                            </span>
+                        </td>
+                        <td><code>@item.CodigoDigital</code></td>
+                        <td>@item.FechaCanje?.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="eco-empty-state text-center py-5">
+            <i class="bi bi-ticket-perforated"></i>
+            <p class="mt-2 mb-0">Todavía no hay canjes registrados.</p>
+        </div>
+    }
+</div>

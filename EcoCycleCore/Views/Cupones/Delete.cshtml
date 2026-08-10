@@ -1,0 +1,60 @@
+﻿@model EcoCycleCore.Models.Cupone
+
+@{
+    ViewData["Title"] = "Eliminar cupón";
+}
+
+<div class="usuarios-header">
+    <div class="container-fluid">
+        <div class="eco-crud-eyebrow" style="color: var(--eco-sprout);">Recompensas</div>
+        <h1>Eliminar cupón</h1>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+    <div class="alert alert-danger d-flex gap-2 align-items-start">
+        <i class="bi bi-exclamation-triangle fs-4"></i>
+        <div>
+            <strong>¿Seguro que quieres eliminar este cupón?</strong>
+            <p class="mb-0">Esta acción no se puede deshacer. Los usuarios que ya lo canjearon conservarán su código, pero el cupón dejará de estar disponible.</p>
+        </div>
+    </div>
+
+    <div class="eco-detail-card">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="cupon-store-badge">
+                <i class="bi bi-gift"></i>
+            </div>
+            <div>
+                <div class="cupon-store">@Model.TiendaNombre</div>
+                <h3 class="mb-0">@Model.DescBeneficio</h3>
+            </div>
+        </div>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Tienda</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.TiendaNombre)</dd>
+
+            <dt class="col-sm-4">Beneficio</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.DescBeneficio)</dd>
+
+            <dt class="col-sm-4">Costo en puntos</dt>
+            <dd class="col-sm-8">
+                <span class="puntos-badge">
+                    <i class="bi bi-star-fill"></i> @Html.DisplayFor(model => model.CostPuntos) pts
+                </span>
+            </dd>
+
+            <dt class="col-sm-4">Stock actual</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Stock) disponibles</dd>
+        </dl>
+
+        <form asp-action="Delete" asp-controller="Cupones" class="d-flex gap-2 mt-4">
+            <input type="hidden" asp-for="CuponId" />
+            <button type="submit" class="btn btn-danger fw-semibold">
+                <i class="bi bi-trash3 me-1"></i> Sí, eliminar cupón
+            </button>
+            <a asp-controller="Cupones" asp-action="Index" class="btn-eco-ghost-light">Cancelar</a>
+        </form>
+    </div>
+</div>
