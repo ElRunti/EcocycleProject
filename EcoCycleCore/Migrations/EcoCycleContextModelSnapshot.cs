@@ -187,6 +187,18 @@ namespace EcoCycleCore.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("estado");
 
+                    b.Property<DateTime?>("FechaAceptacion")
+                        .HasColumnType("datetime")
+                        .HasColumnName("fecha_aceptacion");
+
+                    b.Property<DateTime?>("FechaConfirmacion")
+                        .HasColumnType("datetime")
+                        .HasColumnName("fecha_confirmacion");
+
+                    b.Property<DateTime?>("FechaEntrega")
+                        .HasColumnType("datetime")
+                        .HasColumnName("fecha_entrega");
+
                     b.Property<DateTime?>("FechaPublicacion")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -200,6 +212,10 @@ namespace EcoCycleCore.Migrations
                     b.Property<decimal>("PesoCantidad")
                         .HasColumnType("decimal(10, 2)")
                         .HasColumnName("peso_cantidad");
+
+                    b.Property<int?>("RecolectorId")
+                        .HasColumnType("int")
+                        .HasColumnName("recolector_id");
 
                     b.Property<string>("Ubicacion")
                         .HasMaxLength(255)
@@ -220,6 +236,8 @@ namespace EcoCycleCore.Migrations
                     b.HasKey("PublicacionesId");
 
                     b.HasIndex("MaterialId");
+
+                    b.HasIndex("RecolectorId");
 
                     b.HasIndex("UsuarioId");
 
@@ -345,6 +363,12 @@ namespace EcoCycleCore.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_PUBLICACIONES_MATERIALES");
 
+                    b.HasOne("EcoCycleCore.Models.Usuario", "Recolector")
+                        .WithMany()
+                        .HasForeignKey("RecolectorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("FK_PUBLICACIONES_RECOLECTOR");
+
                     b.HasOne("EcoCycleCore.Models.Usuario", "Usuario")
                         .WithMany("Publicaciones")
                         .HasForeignKey("UsuarioId")
@@ -353,6 +377,8 @@ namespace EcoCycleCore.Migrations
                         .HasConstraintName("FK_PUBLICACIONES_USUARIOS");
 
                     b.Navigation("Material");
+
+                    b.Navigation("Recolector");
 
                     b.Navigation("Usuario");
                 });
