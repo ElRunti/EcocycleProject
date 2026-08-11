@@ -1,5 +1,4 @@
 @model IEnumerable<EcoCycleCore.Models.Entrega>
-
 @{
     ViewData["Title"] = "Entregas";
 }
@@ -21,7 +20,7 @@
             <tr>
                 <th>Ciudadano</th>
                 <th>Publicación</th>
-                <th>@Html.DisplayNameFor(model => model.CentroId)</th>
+                <th>Recolector</th>
                 <th>@Html.DisplayNameFor(model => model.PesoReal)</th>
                 <th>@Html.DisplayNameFor(model => model.PuntosOtorgados)</th>
                 <th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
@@ -34,7 +33,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Ciudadano.Nombre)</td>
                     <td>@Html.DisplayFor(modelItem => item.Publicacion.Descripcion)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CentroId)</td>
+                    <td>@(item.Publicacion?.Recolector?.Nombre ?? "Sin asignar")</td>
                     <td>@Html.DisplayFor(modelItem => item.PesoReal) kg</td>
                     <td>
                         <span class="badge rounded-pill" style="background-color: var(--eco-sage); color: var(--eco-forest);">

@@ -1,39 +1,33 @@
 @model EcoCycleCore.Models.Entrega
-
 @{
-    ViewData["Title"] = "Detalle de entrega";
+    ViewData["Title"] = "Detalle de Entrega";
 }
 
-<div class="eco-crud-header mb-4">
-    <div class="eco-crud-eyebrow">Recolección</div>
-    <h1>Detalle de entrega</h1>
-</div>
+<h1>Detalle de Entrega</h1>
 
-<div class="eco-detail-card">
-    <dl class="row mb-0">
-        <dt class="col-sm-4">Ciudadano</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.Ciudadano.Nombre)</dd>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Ciudadano</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Ciudadano.Nombre)</dd>
 
-        <dt class="col-sm-4">Publicación</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.Publicacion.Descripcion)</dd>
+        <dt class="col-sm-3">Publicación</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Publicacion.Descripcion)</dd>
 
-        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CentroId)</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.CentroId)</dd>
+        <dt class="col-sm-3">Recolector</dt>
+        <dd class="col-sm-9">@(Model.Publicacion?.Recolector?.Nombre ?? "Sin asignar")</dd>
 
-        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PesoReal)</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.PesoReal) kg</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PesoReal)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PesoReal) kg</dd>
 
-        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PuntosOtorgados)</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.PuntosOtorgados) pts</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PuntosOtorgados)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PuntosOtorgados) pts</dd>
 
-        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FechaEntrega)</dt>
-        <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaEntrega)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaEntrega)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaEntrega)</dd>
     </dl>
-
-    <div class="d-flex gap-2 mt-3">
-        <a asp-action="Edit" asp-route-id="@Model.EntregaId" class="btn-eco-primary">
-            <i class="bi bi-pencil me-1"></i> Editar
-        </a>
-        <a asp-action="Index" class="btn-eco-ghost-light">Volver al listado</a>
-    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.EntregaId" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
 </div>

@@ -12,37 +12,51 @@ public class EntregasController : Controller
         _context = context;
     }
 
-    // GET: ENTREGAS
+    // GET: Entregas
     public async Task<IActionResult> Index()
     {
         var entregas = await _context.Entregas
             .Include(e => e.Ciudadano)
             .Include(e => e.Publicacion)
+                .ThenInclude(p => p.Recolector)
             .ToListAsync();
 
         return View(entregas);
     }
 
-    // GET: ENTREGAS/Details/5
-    public async Task<IActionResult> Details(int? entregaid)
+    // GET: Entregas/Details/5
+    public async Task<IActionResult> Details(int? id)
     {
-        if (entregaid == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var entrega = await _context.Entregas
             .Include(e => e.Ciudadano)
             .Include(e => e.Publicacion)
-            .FirstOrDefaultAsync(m => m.EntregaId == entregaid);
+                .ThenInclude(p => p.Recolector)
+            .FirstOrDefaultAsync(m => m.EntregaId == id);
 
-        if (entrega == null)
-        {
-            return NotFound();
-        }
+        if (entrega == null) return NotFound();
 
         return View(entrega);
     }
+
+    // GET: Entregas/Delete/5
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null) return NotFound();
+
+        var entrega = await _context.Entregas
+            .Include(e => e.Ciudadano)
+            .Include(e => e.Publicacion)
+                .ThenInclude(p => p.Recolector)
+            .FirstOrDefaultAsync(m => m.EntregaId == id);
+
+        if (entrega == null) return NotFound();
+
+        return View(entrega);
+    }
+    // GET: ENTREGAS/Details/5
+
 
     // GET: ENTREGAS/Create
     public async Task<IActionResult> Create()
@@ -151,25 +165,7 @@ public class EntregasController : Controller
     }
 
     // GET: ENTREGAS/Delete/5
-    public async Task<IActionResult> Delete(int? entregaid)
-    {
-        if (entregaid == null)
-        {
-            return NotFound();
-        }
-
-        var entrega = await _context.Entregas
-            .Include(e => e.Ciudadano)
-            .Include(e => e.Publicacion)
-            .FirstOrDefaultAsync(m => m.EntregaId == entregaid);
-
-        if (entrega == null)
-        {
-            return NotFound();
-        }
-
-        return View(entrega);
-    }
+   
 
     // POST: ENTREGAS/Delete/5
     [HttpPost, ActionName("Delete")]
